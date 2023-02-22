@@ -32,8 +32,8 @@ import time
 from IPython.display import display
 
 try:
-    res = engine.execute("DROP TABLE IF EXISTS station")
-    res = engine.execute(sql)
+    res = create_engine.execute("DROP TABLE IF EXISTS station")
+    res = create_engine.execute(sql)
     print(res.fetchall())
 except Exception as e:
     print(e)
