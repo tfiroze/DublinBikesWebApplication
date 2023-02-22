@@ -25,8 +25,8 @@ from sqlalchemy import create_engine
 
 engine = create_engine('mysql://softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com')
 try:
-    res = create_engine.execute("DROP TABLE IF EXISTS station")
-    res = create_engine.execute(sql)
+    res = engine.execute("DROP TABLE IF EXISTS station")
+    res = engine.execute(sql)
     print(res.fetchall())
 except Exception as e:
     print(e)
