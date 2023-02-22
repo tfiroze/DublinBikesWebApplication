@@ -23,6 +23,7 @@ PRIMARY KEY (number, last_update)
 import sqlalchemy as sqla
 from sqlalchemy import create_engine
 
+engine = create_engine('mysql://softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com')
 try:
     res = create_engine.execute("DROP TABLE IF EXISTS station")
     res = create_engine.execute(sql)
