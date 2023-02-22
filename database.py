@@ -22,14 +22,6 @@ PRIMARY KEY (number, last_update)
 """
 import sqlalchemy as sqla
 from sqlalchemy import create_engine
-import traceback
-import glob
-import os
-from pprint import pprint
-import simplejson as json
-import requests
-import time
-from IPython.display import display
 
 try:
     res = create_engine.execute("DROP TABLE IF EXISTS station")
