@@ -24,7 +24,7 @@ import mysql.connector
 
 engine = mysql.connector.connect(host="softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com",user="soft",password="password")
 mycursor = engine.cursor()
-mycursor.execute("CREATE DATABASE DUBLIN BIKES;")
+mycursor.execute("CREATE DATABASE DUBLIN BIKES")
 mycursor.execute(sql)
 print(engine)
 
