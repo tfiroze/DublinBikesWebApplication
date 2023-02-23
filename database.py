@@ -20,13 +20,10 @@ PRIMARY KEY (number, last_update)
 );
 
 """
-import sqlalchemy as sqla
-from sqlalchemy import create_engine
+import mysql.connector
 
-engine = create_engine('mysql://softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com')
-try:
-    res = engine.execute("DROP TABLE IF EXISTS station")
-    res = engine.execute(sql)
-    print(res.fetchall())
-except Exception as e:
-    print(e)
+engine = mysql.connector.connect(host='mysql://softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com',user="soft",password="password")
+#mycursor = engine.cursor()
+#mycursor.execute(sql)
+print(engine)
+
