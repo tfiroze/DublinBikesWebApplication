@@ -23,7 +23,7 @@ PRIMARY KEY (number, last_update)
 import mysql.connector
 
 engine = mysql.connector.connect(host="softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com",user="soft",password="password")
-#mycursor = engine.cursor()
-#mycursor.execute(sql)
+mycursor = engine.cursor()
+mycursor.execute(sql)
 print(engine)
 
