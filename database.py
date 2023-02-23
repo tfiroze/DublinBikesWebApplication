@@ -22,9 +22,8 @@ PRIMARY KEY (number, last_update)
 """
 import mysql.connector
 
-engine = mysql.connector.connect(host="softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com",user="soft",password="password")
+engine = mysql.connector.connect(host="softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com",user="soft",password="password",database="dublinbikes")
 mycursor = engine.cursor()
-mycursor.execute("CREATE DATABASE dublinbikes")
 mycursor.execute(sql)
 print(engine)
 
