@@ -1,30 +1,30 @@
 
 def stat(data):
-    
-    item_str = json.dumps(data[0])
-    insert_query1 = f"INSERT INTO station (number, address, banking,  bike_stands,name, position_lat,position_lng) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    values1 = (
-            data[0]['number'],
-            data[0]['address'],
-            data[0]['banking'],
-            data[0]['bike_stands'],
-            data[0]['name'],
-            data[0]['position']['lat'],
-            data[0]['position']['lng']
-        )
-    insert2=f"INSERT INTO availability (number,last_update,available_bikes,available_bike_stands,status) Values(%s,%s,%s,%s,%s)"
-    values2=(
-            data[0]['number'],
-            data[0]['last_update'],
-            data[0]['available_bikes'],
-            data[0]['available_bike_stands'],
-            data[0]['status'])
-            
-    # execute the query with the dictionary string as a parameter
-    mycursor.execute(insert_query1, values1)
-    engine.commit()
-    mycursor.execute(insert2, values2)
-    engine.commit()
+    for i in range(0,len(data)):
+        
+        insert_query1 = f"INSERT INTO station (number, address, banking,  bike_stands,name, position_lat,position_lng) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        values1 = (
+                data[i]['number'],
+                data[i]['address'],
+                data[i]['banking'],
+                data[i]['bike_stands'],
+                data[i]['name'],
+                data[i]['position']['lat'],
+                data[i]['position']['lng']
+            )
+        insert2=f"INSERT INTO availability (number,last_update,available_bikes,available_bike_stands,status) Values(%s,%s,%s,%s,%s)"
+        values2=(
+                data[i]['number'],
+                data[i]['last_update'],
+                data[i]['available_bikes'],
+                data[i]['available_bike_stands'],
+                data[i]['status'])
+                
+        # execute the query with the dictionary string as a parameter
+        mycursor.execute(insert_query1, values1)
+        engine.commit()
+        mycursor.execute(insert2, values2)
+        engine.commit()
 
     
 import mysql.connector
