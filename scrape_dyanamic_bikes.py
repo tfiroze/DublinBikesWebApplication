@@ -22,6 +22,7 @@ import traceback
 engine = mysql.connector.connect(host="softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com",user="soft",password="password",database="dublinbikes")
 mycursor = engine.cursor()
 
+
 import requests
 import json
 NAME="Dublin" # name of contract
