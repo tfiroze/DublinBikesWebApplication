@@ -1,15 +1,17 @@
-
+from datetime import datetime
 def availability(data):
+    now = datetime.now()
+    now.strftime('%Y-%m-%d %H:%M:%S')
+
     for i in range(0,len(data)):
-        insert2=f"INSERT INTO availability (number,last_update,available_bikes,available_bike_stands,status) Values(%s,%s,%s,%s,%s)"
+        insert2=f"INSERT INTO availability (number,last_update,available_bikes,available_bike_stands,status,time) Values(%s,%s,%s,%s,%s,%s)"
         values2=(
                 data[i]['number'],
                 data[i]['last_update'],
                 data[i]['available_bikes'],
                 data[i]['available_bike_stands'],
-                data[i]['status'])
-        #print(data[i]['last_update'])        
-        # execute the query with the dictionary string as a parameter
+                data[i]['status'],
+                now)
         mycursor.execute(insert2, values2)
         engine.commit()
 
