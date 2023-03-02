@@ -51,7 +51,6 @@ def main():
         r = requests.get(STATIONS,params={"apiKey": APIKEY, "contract": NAME})
         data=json.loads(r.text)
         availability(data)
-        time.sleep(5*60)
     except:
         print(traceback.format_exc())
         return
