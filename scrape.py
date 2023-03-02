@@ -1,11 +1,11 @@
 from datetime import datetime
 def availability(data):
-    
+    p="https://api.open-meteo.com/v1/forecast?latitude=53.30&longitude=-6.22&daily=precipitation_sum,rain_sum,precipitation_probability_max&current_weather=true&timezone=Europe%2FLondon"
+    r = requests.get(p)
     for i in range(0,len(data)):
         now = datetime.now()
         now.strftime('%Y-%m-%d %H:%M:%S')
-        p="https://api.open-meteo.com/v1/forecast?latitude=53.30&longitude=-6.22&daily=precipitation_sum,rain_sum,precipitation_probability_max&current_weather=true&timezone=Europe%2FLondon"
-        r = requests.get(p)
+        
         res = json.loads(r.text)
         insert1=f"INSERT INTO weather (number,time,temperature,wind_speed,wind_direction,weather_code,precipitation_sum ,rain_sum ,precipitation_probability ) Values(%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         values1=(
