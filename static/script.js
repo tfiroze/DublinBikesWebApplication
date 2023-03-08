@@ -1,17 +1,38 @@
-// Initialize and add the map
-function initMap() {
-  // The location of Uluru
-  const uluru = { lat: -25.344, lng: 131.031 };
-  // The map, centered at Uluru
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 4,
-    center: uluru,
+function addMarkers(stations) {
+  for (const station of stations) {
+  console.log(station);
+  var marker = new google.maps.Marker({
+  position: {
+  lat: station.position_lat,
+  lng: station.position_lng,
+  },
+  map: map,
+  title: station.name,
+  station_number: station.number,
   });
-  // The marker, positioned at Uluru
-  const marker = new google.maps.Marker({
-    position: uluru,
-    map: map,
+  }
+  }
+  function getStations() {
+  fetch("http://127.0.0.1:5000/stations")
+  .then((response) => response.json())
+  .then((data) => {
+  console.log("fetch response", typeof data);
+  addMarkers(data);
   });
-}
-
-window.initMap = initMap;
+  }
+  // Initialize and add the map
+  function initMap() {
+  const dublin = {lat: 53.3498, lng: -6.2603};
+  // The map, centered at Dublin
+  map = new google.maps.Map(document.getElementById("map"), {
+  zoom: 13,
+  center: dublin,
+  });
+  // const marker = new google.maps.Marker({
+  // position: dublin,
+  // map: map,
+  // });
+  getStations();
+  }
+  var map = null;
+  window.initMap = initMap;

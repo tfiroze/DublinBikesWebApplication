@@ -1,10 +1,27 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify
+import pymysql.cursors
+from flask_cors import CORS
 
 app = Flask(__name__)
-app = Flask(__name__, template_folder='templates')
-@app.route('/')
-def map():
-    return render_template('map.html')
+CORS(app)
+# Configure database connection
+conn = pymysql.connect(
+    host="softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com",user="soft",password="password",database="dublinbikes",
+    charset="utf8mb4",
+    cursorclass=pymysql.cursors.DictCursor
+)
+
+# Define Flask route to get station data
+@app.route('/stations')
+def get_stations():
+    # Query the database to retrieve station data
+    with conn.cursor() as cursor:
+        sql = "SELECT * FROM station"
+        cursor.execute(sql)
+        results = cursor.fetchall()
+
+    # Return the data as a JSON object
+    return jsonify(results)
 
 if __name__ == '__main__':
     app.run(debug=True)
