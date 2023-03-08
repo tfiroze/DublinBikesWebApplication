@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Google API-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet">
+
+    <!--FontAwesome for Icons-->
+    <script src="https://kit.fontawesome.com/6d78c94562.js" crossorigin="anonymous"></script>
+
+    <!--Local Static Sheets-->
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="../static/script.js"></script>
+
+    
+    <!-- Title-->
+    <title>Dublin Bikes</title>
+</head>
+<body>
+    <nav class="sidebar close" id="sidebar">
+        <div class="header">
+            <div class="img-container">
+                <img src="../images/dublin_bikes_logo.png" alt="Dublin Bikes Logo" class = "logo-image">
+            </div>
+            <span class="header-text">Dublin Bikes</span>
+            <i class="fa-solid fa-angle-right expand-toggle" id="toggle"></i>
+        </div>
+        <div class="menubar">
+            <ul class="menus">
+                <li class="menu searchbar">
+                    <div class="menu-link">
+                        <i class="fa-solid fa-magnifying-glass icon"></i>
+                        <input type="search" name="stationSearchBox" id="search-station" placeholder="Search Stations..." class="menu-text">
+                    </div>
+                </li>
+                <li class="menu">
+                    <a href="" class="menu-link">
+                        <i class="fa-solid fa-diamond-turn-right icon"></i>
+                        <span class="menu-text">Journey Planner</span>
+                    </a>
+                </li>
+                <li class="menu">
+                    <a href=""  class="menu-link">
+                        <i class="fa-solid fa-circle-info icon"></i>
+                        <span class="menu-text">How to Use</span>
+                    </a>
+                </li>
+            </ul>
+            
+        </div>
+    </nav>
+
+    <div class="map" id="map">
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR-bNYJuNHTwYIrtKeYVqEctXQVtJbx08&callback=initMap&v=weekly"
+            defer
+        ></script>
+    </div>
+   
+    
+    
+</body>
+</html>
