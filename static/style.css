@@ -1,13 +1,161 @@
 *{
     font-family: 'Montserrat', serif;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+    color: black;
+}
+
+
+
+.sidebar {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 100vh;
+    background-color: white;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    padding: 30px 20px;
+    transition: all 0.5s ease;
+    white-space: nowrap;
+}
+
+.sidebar.close {
+    width: 100px;
+}
+.sidebar.close .header-text,
+.sidebar.close .menu-text {
+    opacity: 0;
+}
+.header {
+    width: 100%;
+    height: 50px;
+    position: relative;
+    display: flex;
+    line-height: 50px;
+    align-items: center;
+    vertical-align:middle;
+}
+
+nav .header .logo-image {
+    display: flex;
+    float: left;
+    width: 65px;
+    margin-right: 25px ;
+
+}
+
+.img-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav .header .header-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    opacity: 1;
+}
+
+
+.expand-toggle {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: -32px;
+    border-radius: 50px;
+    background-color: grey;
+    height: 25px;
+    width: 25px;
+    transform: rotate(180deg);
+    transition: all 0.3s ease;
+}
+
+.sidebar.close .expand-toggle {
+    transform: rotate(0deg);
+}
+.menubar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.menu {
+    height: 50px;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 10px;
+    transition: all 0.4s ease;
+
+}
+
+.menu:hover {
+    background-color: grey;
+}
+
+.menu-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+
+.menu-link .icon {
+    min-width: 60px;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    display: flex;
+    font-size: 30px;
+    margin-right: 10px;
+}
+
+.menu-link .menu-text {
+    font-size: 20px;
+    display: flex;
+    opacity: 1;
+}
+.searchbar {
+    background-color: grey;
+    border-radius: 10px;
+}
+
+.searchbar input{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border:none;
+    background-color: grey;
 }
 
 #map {
+    position: absolute;
+    display: inline;
     width: 100%;
-    height: 90vh;
+    height: 100vh;
     background-color: black;
 }
 
-#logo_image {
-    width: 30%;
+
+.weather {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 300px;
+    height: 50px;
+    background-color: white;
 }
+
+
