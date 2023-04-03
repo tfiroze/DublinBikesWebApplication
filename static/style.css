@@ -161,16 +161,24 @@ nav .header .header-text {
 
 .weather-right {
     display: inline-block;
-    width: 50%;
+    width: 52%;
 }
 
 .weather-left {
     display: inline-block;
-    width: 50%;
+    width: 45%;
     height: 100%;
 }
 .weather_desc {
     font-size: 1rem;
+    margin: 0 auto;
 }
 
+.weather_desc {
+    margin: 0 auto;
+    display: block;
+}
 
+.weather_icon {
+    display: flex;
+}
