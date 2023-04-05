@@ -24,4 +24,14 @@ window.onload = function(){
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
   });
+  let time = document.getElementById("time");
+  let date = document.getElementById('date');
+  setInterval(()=> {
+    let t = new Date();
+    time.innerHTML = t.toLocaleTimeString();
+    date.innerHTML = t.toLocaleDateString();
+  }, 1000)
+
+
+
 }
