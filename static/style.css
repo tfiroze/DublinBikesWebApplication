@@ -180,5 +180,6 @@ nav .header .header-text {
 }
 
 .weather_icon {
-    display: flex;
+    float: left;
+    font-size: 2rem;
 }
