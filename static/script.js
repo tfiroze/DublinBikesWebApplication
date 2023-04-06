@@ -39,12 +39,36 @@ function addMarkers(stations) {
   window.initMap = initMap;
 
 window.onload = function(){
-  const sidebar = document.getElementById("sidebar")
-  const toggle = document.getElementById("toggle")
+  const sidebar = document.getElementById("sidebar");
+  const toggle = document.getElementById("toggle");
+  const journey_planner = document.getElementById("journey_planner");
+  const help = document.getElementById('help');
+  const search = document.getElementById('search');
+  const journey_icon = document.getElementById('journey_icon')
 
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
+    search.classList.remove("journey");
+    help.classList.remove("journey");
   });
+
+  journey_planner.addEventListener("click", () => {
+    journey_planner 
+    sidebar.classList.toggle("close");
+    search.classList.toggle("journey");
+    help.classList.toggle("journey");
+    journey_icon.classList.toggle("journey")
+  });
+
+
+  help.addEventListener("click", () => {
+    sidebar.classList.toggle("close");
+  });
+
+  search.addEventListener("click", () => {
+    sidebar.classList.toggle("close");
+  });
+
   let time = document.getElementById("time");
   let date = document.getElementById('date');
   setInterval(()=> {
