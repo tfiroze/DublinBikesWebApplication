@@ -1,3 +1,5 @@
+var markers =[];
+var markerClusterer;
 function addMarkers(stations) {
   for (const station of stations) {
     console.log(station);
@@ -10,8 +12,10 @@ function addMarkers(stations) {
       title: station.name,
       station_number: station.number,
     });
+    markers.push(marker);
+    markerClusterer.addMarkers(marker);
     }
-  }
+}
   function getStations() {
     fetch("http://127.0.0.1:5000/stations")
     .then((response) => response.json())
@@ -33,7 +37,10 @@ function addMarkers(stations) {
     // position: dublin,
     // map: map,
     // });
+    new markerClusterer.MarkerClusterer(map, [], {imagePath: 'https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js'});
     getStations();
+
+    
   }
   var map = null;
   window.initMap = initMap;
