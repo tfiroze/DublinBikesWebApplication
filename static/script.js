@@ -1,13 +1,9 @@
-const markers =[];
-function addMarkers(stations) {
-  
-}
-  
-  // Initialize and add the map
+// Initialize and add the map
   function initMap() {
+    var markers =[];
     const dublin = {lat: 53.3498, lng: -6.2603};
     // The map, centered at Dublin
-    map = new google.maps.Map(document.getElementById("map"), {
+    var map = new google.maps.Map(document.getElementById("map"), {
       zoom: 13,
       center: dublin,
       disableDefaultUI: true,
@@ -32,11 +28,12 @@ function addMarkers(stations) {
       }
     getStations();
     console.log(markers);
-    const markerCluster = new markerClusterer.MarkerClusterer({ map, markers});
-
+    var mc = new markerClusterer.MarkerClusterer({ map:map});
+    console.log(mc);
+    mc.markers = markers;
   }
-  var map = null;
-  window.initMap = initMap;
+var map = null;
+window.initMap = initMap;
 
 window.onload = function(){
   const sidebar = document.getElementById("sidebar");
