@@ -23,5 +23,6 @@ def get_stations():
     # Return the data as a JSON object
     return jsonify(results)
 
+
 if __name__ == '__main__':
     app.run(debug=True)
