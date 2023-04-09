@@ -1,29 +1,8 @@
-var markers =[];
-var markerClusterer;
+const markers =[];
 function addMarkers(stations) {
-  for (const station of stations) {
-    console.log(station);
-    var marker = new google.maps.Marker({
-      position: {
-        lat: station.position_lat,
-        lng: station.position_lng,
-      },
-      map: map,
-      title: station.name,
-      station_number: station.number,
-    });
-    markers.push(marker);
-    markerClusterer.addMarkers(marker);
-    }
+  
 }
-  function getStations() {
-    fetch("http://127.0.0.1:5000/stations")
-    .then((response) => response.json())
-    .then((data) => {
-    console.log("fetch response", typeof data);
-    addMarkers(data);
-    });
-  }
+  
   // Initialize and add the map
   function initMap() {
     const dublin = {lat: 53.3498, lng: -6.2603};
@@ -33,14 +12,28 @@ function addMarkers(stations) {
       center: dublin,
       disableDefaultUI: true,
     });
-    // const marker = new google.maps.Marker({
-    // position: dublin,
-    // map: map,
-    // });
-    new markerClusterer.MarkerClusterer(map, [], {imagePath: 'https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js'});
-    getStations();
-
     
+    async function getStations() {
+      const response = await fetch("http://127.0.0.1:5000/stations");
+      data = await response.json()
+      var station_data = await data;
+      for (const station of station_data) {
+        var marker = new google.maps.Marker({
+          position: {
+            lat: station.position_lat,
+            lng: station.position_lng,
+          },
+          map: map,
+          title: station.name,
+          station_number: station.number,
+        });
+        markers.push(marker);
+        }
+      }
+    getStations();
+    console.log(markers);
+    const markerCluster = new markerClusterer.MarkerClusterer({ map, markers});
+
   }
   var map = null;
   window.initMap = initMap;
