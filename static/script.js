@@ -1,32 +1,28 @@
-function addMarkers(stations) {
-  for (const station of stations) {
-  console.log(station);
-  var marker = new google.maps.Marker({
-  position: {
-  lat: station.position_lat,
-  lng: station.position_lng,
-  },
-  map: map,
-  title: station.name,
-  station_number: station.number,
+// Initialize and add the map
+function initMap() {
+  // The location of Dublin
+  const Dublin = { lat: 53.350140, lng: -6.266155 };
+  // The map, centered at Uluru
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 12,
+    center: Dublin,
+    disableDefaultUI: true,
   });
-  }
-  }
-  function getStations() {
-  fetch("http://127.0.0.1:5000/stations")
-  .then((response) => response.json())
-  .then((data) => {
-  console.log("fetch response", typeof data);
-  addMarkers(data);
+  // The marker, positioned at Uluru
+  const marker = new google.maps.Marker({
+    position: Dublin,
+    map: map,
   });
-  }
-  // Initialize and add the map
-  function initMap() {
-  const dublin = {lat: 53.3498, lng: -6.2603};
-  // The map, centered at Dublin
-  map = new google.maps.Map(document.getElementById("map"), {
-  zoom: 13,
-  center: dublin,
+}
+
+window.initMap = initMap;
+
+window.onload = function(){
+  const sidebar = document.getElementById("sidebar")
+  const toggle = document.getElementById("toggle")
+
+  toggle.addEventListener("click", () => {
+    sidebar.classList.toggle("close");
   });
   // const marker = new google.maps.Marker({
   // position: dublin,
@@ -54,3 +50,4 @@ window.onload = function(){
 
 
 }
+

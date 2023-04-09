@@ -153,6 +153,7 @@ nav .header .header-text {
     position: fixed;
     top: 10px;
     right: 10px;
+
     width: 375px;
     height: 90px;
     background-color: white;
@@ -214,3 +215,5 @@ nav .header .header-text {
     margin: 0 auto;
     font-size: 1.75rem;
 }
+
+
