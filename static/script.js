@@ -24,4 +24,30 @@ window.onload = function(){
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
   });
+  // const marker = new google.maps.Marker({
+  // position: dublin,
+  // map: map,
+  // });
+  getStations();
+  }
+  var map = null;
+  window.initMap = initMap;
+window.onload = function(){
+  const sidebar = document.getElementById("sidebar")
+  const toggle = document.getElementById("toggle")
+
+  toggle.addEventListener("click", () => {
+    sidebar.classList.toggle("close");
+  });
+  let time = document.getElementById("time");
+  let date = document.getElementById('date');
+  setInterval(()=> {
+    let t = new Date();
+    time.innerHTML = t.toLocaleTimeString();
+    date.innerHTML = t.toLocaleDateString();
+  }, 1000)
+
+
+
 }
+

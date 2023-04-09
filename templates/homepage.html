@@ -15,7 +15,9 @@
 
     <!--Local Static Sheets-->
     <link rel="stylesheet" href="../static/style.css">
-    <script src="../static/script_map.js"></script>
+
+    <script src="../static/script.js"></script>
+
 
     
     <!-- Title-->
@@ -29,6 +31,7 @@
             </div>
             <span class="header-text">Dublin Bikes</span>
             <i class="fa-solid fa-angle-right expand-toggle" id="toggle"></i>
+
         </div>
         <div class="menubar">
             <ul class="menus">
@@ -63,11 +66,26 @@
     </div>
 
     <div class="weather">
-        <span>
-            <i class="fa-solid fa-temperature-three-quarters"></i>
-            <span>31 &#8451</span>
-        </span>
+        <div class="weather-left">
+            <div class="datetime">
+                <p id="time"></p>
+                <p id="date"></p>
+            </div>
+        </div>
+        
+        <div class="weather-right">
+            <i class="fa-solid fa-cloud-rain" id = 'weather_icon'></i>
+            <div class="weather-details">
+                <p class="dublin-weather">Dublin</p>
+                <span class="temp">31&#176C</span>
+                <span class="weather_desc">Light Rains</span>
+            </div>
+        </div>
+
+        <!-- <i class="fa-solid fa-angle-down expand-toggle-weather" id="toggle-weather"></i> -->
+        
     </div>
+
    
     
     
