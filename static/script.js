@@ -66,6 +66,7 @@ window.onload = function(){
     sidebar.classList.toggle("close");
   });
 
+
   let time = document.getElementById("time");
   let date = document.getElementById('date');
   setInterval(()=> {
@@ -77,3 +78,4 @@ window.onload = function(){
 
 
 }
+
