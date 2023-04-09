@@ -3,48 +3,91 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <!--Google API-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet">
 
-    <!--Local Static SHheets-->
+    <!--FontAwesome for Icons-->
+    <script src="https://kit.fontawesome.com/6d78c94562.js" crossorigin="anonymous"></script>
+
+    <!--Local Static Sheets-->
     <link rel="stylesheet" href="../static/style.css">
+
     <script src="../static/script_map.js"></script>
+
+
+    
+    <!-- Title-->
     <title>Dublin Bikes</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-                <a href="" class="navbar-brand" id="logo">
-                    <img src="../images/dublin_bikes_logo.png" alt="dublin_bikes_logo" id = logo_image>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class= "collapse navbar-collapse" id="navbarContent">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a href="" class="nav-link">Journey Planner</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">How to use</a>
-                        </li>
-                    </ul>
-                </div>
+    <nav class="sidebar close" id="sidebar">
+        <div class="header">
+            <div class="img-container">
+                <img src="../images/dublin_bikes_logo.png" alt="Dublin Bikes Logo" class = "logo-image">
             </div>
+            <span class="header-text">Dublin Bikes</span>
+            <i class="fa-solid fa-angle-right expand-toggle" id="toggle"></i>
+
+        </div>
+        <div class="menubar">
+            <ul class="menus">
+                <li class="menu searchbar">
+                    <div class="menu-link">
+                        <i class="fa-solid fa-magnifying-glass icon"></i>
+                        <input type="search" name="stationSearchBox" id="search-station" placeholder="Search Stations..." class="menu-text">
+                    </div>
+                </li>
+                <li class="menu">
+                    <a href="" class="menu-link">
+                        <i class="fa-solid fa-diamond-turn-right icon"></i>
+                        <span class="menu-text">Journey Planner</span>
+                    </a>
+                </li>
+                <li class="menu">
+                    <a href=""  class="menu-link">
+                        <i class="fa-solid fa-circle-info icon"></i>
+                        <span class="menu-text">How to Use</span>
+                    </a>
+                </li>
+            </ul>
+            
         </div>
     </nav>
-    <div class="container-fluid">
-        <div class="map" id="map">
-            <script
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR-bNYJuNHTwYIrtKeYVqEctXQVtJbx08&callback=initMap"
-                defer
-            ></script>
-        </div>
+
+    <div class="map" id="map">
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR-bNYJuNHTwYIrtKeYVqEctXQVtJbx08&callback=initMap&v=weekly"
+            defer
+        ></script>
     </div>
+
+    <div class="weather">
+        <div class="weather-left">
+            <div class="datetime">
+                <p id="time"></p>
+                <p id="date"></p>
+            </div>
+        </div>
+        
+        <div class="weather-right">
+            <i class="fa-solid fa-cloud-rain" id = 'weather_icon'></i>
+            <div class="weather-details">
+                <p class="dublin-weather">Dublin</p>
+                <span class="temp">31&#176C</span>
+                <span class="weather_desc">Light Rains</span>
+            </div>
+        </div>
+
+        <!-- <i class="fa-solid fa-angle-down expand-toggle-weather" id="toggle-weather"></i> -->
+        
+    </div>
+
+   
+    
     
 </body>
 </html>
