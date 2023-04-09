@@ -22,6 +22,14 @@ def get_stations():
 
     # Return the data as a JSON object
     return jsonify(results)
+@app.route('/availability')
+def get_availability():
+    with conn.cursor() as cursor:
+        sql = "SELECT * FROM availability"
+        cursor.execute(sql)
+        results = cursor.fetchall()
+
+    return jsonify(results)
 
 if __name__ == '__main__':
     app.run(debug=True)
