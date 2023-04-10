@@ -47,9 +47,7 @@ function addMarkers(stations) {
   }
 }
 
-// ... rest of the code remains unchanged ...
 
-// ... rest of the code remains unchanged ...
 
 function searchStations() {
   const searchText = this.value.toLowerCase();
@@ -71,6 +69,7 @@ function getStations(callback) {
     .then((data) => {
       console.log("fetch response", typeof data);
       addMarkers(data);
+      
       if (callback) {
         callback();
       }
@@ -93,19 +92,48 @@ function initMap() {
 var map = null;
 window.initMap = initMap;
 
-window.onload = function () {
+window.onload = function(){
   const sidebar = document.getElementById("sidebar");
   const toggle = document.getElementById("toggle");
+  const journey_planner = document.getElementById("journey_planner");
+  const help = document.getElementById('help');
+  const search = document.getElementById('search');
+  const journey_icon = document.getElementById('journey_icon')
 
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
+    search.classList.remove("journey");
+    help.classList.remove("journey");
   });
 
+  journey_planner.addEventListener("click", () => {
+    journey_planner 
+    sidebar.classList.toggle("close");
+    search.classList.toggle("journey");
+    help.classList.toggle("journey");
+    journey_icon.classList.toggle("journey")
+  });
+
+
+  help.addEventListener("click", () => {
+    sidebar.classList.toggle("close");
+  });
+
+  search.addEventListener("click", () => {
+    sidebar.classList.toggle("close");
+  });
+
+
   let time = document.getElementById("time");
-  let date = document.getElementById("date");
-  setInterval(() => {
+  let date = document.getElementById('date');
+  setInterval(()=> {
     let t = new Date();
     time.innerHTML = t.toLocaleTimeString();
     date.innerHTML = t.toLocaleDateString();
-  }, 1000);
-};
+  }, 1000)
+
+
+
+}
+
+
