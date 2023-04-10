@@ -24,5 +24,19 @@ def get_stations():
     return jsonify(results)
 
 
+# Define Flask route to get station data
+@app.route('/history')
+def get_history():
+    # Query the database to retrieve station data
+    with conn.cursor() as cursor:
+        sql = "SELECT * FROM dublinbikes.availability WHERE time >= now() - interval 6 hour"
+        cursor.execute(sql)
+        results = cursor.fetchall()
+
+    # Return the data as a JSON object
+    return jsonify(results)
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
