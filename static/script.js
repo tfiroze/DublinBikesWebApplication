@@ -37,6 +37,7 @@ var mc;
   }
 window.initMap = initMap;
 function searchStations() {
+  console.log(mc);
   mc.removeMarkers(markers);
   const searchText = this.value.toLowerCase();
   var station_result = [];
@@ -45,9 +46,6 @@ function searchStations() {
     if (markerTitle.includes(searchText)) {
       station_result.push(marker)
       marker.setMap(map);
-    }
-    else {
-      marker.setMap(null);
     }
   });
   mc.markers = station_result;
