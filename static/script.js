@@ -1,15 +1,18 @@
+var markers = [];
+var map;
+var mc;
 // Initialize and add the map
   function initMap() {
-    var markers =[];
     const dublin = {lat: 53.3498, lng: -6.2603};
     // The map, centered at Dublin
-    var map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), {
       zoom: 13,
       center: dublin,
       disableDefaultUI: true,
     });
     
     async function getStations() {
+      markers = [];
       const response = await fetch("http://127.0.0.1:5000/stations");
       data = await response.json()
       var station_data = await data;
@@ -24,16 +27,32 @@
           station_number: station.number,
         });
         markers.push(marker);
-        }
       }
-    getStations();
+    }
+    getStations()
     console.log(markers);
-    var mc = new markerClusterer.MarkerClusterer({ map:map});
-    console.log(mc);
+    mc = new markerClusterer.MarkerClusterer({ map:map});
+    // console.log(mc);
     mc.markers = markers;
   }
-var map = null;
 window.initMap = initMap;
+function searchStations() {
+  mc.removeMarkers(markers);
+  const searchText = this.value.toLowerCase();
+  var station_result = [];
+  markers.forEach(marker => {
+    const markerTitle = marker.getTitle().toLowerCase();
+    if (markerTitle.includes(searchText)) {
+      station_result.push(marker)
+      marker.setMap(map);
+    }
+    else {
+      marker.setMap(null);
+    }
+  });
+  mc.markers = station_result;
+  console.log(mc.markers.length);
+}
 
 window.onload = function(){
   const sidebar = document.getElementById("sidebar");
@@ -43,9 +62,9 @@ window.onload = function(){
   const search = document.getElementById('search');
   const menu_bar = document.getElementById('menu_bar');
   const journey_planner_menu = document.getElementById('journey_planner_menu');
+  const search_station = document.getElementById('search-station');
 
-  journey_planner_menu.style.opacity = 0
-
+  search_station.addEventListener("input", searchStations);
 
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
