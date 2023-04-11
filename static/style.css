@@ -20,6 +20,7 @@
     background-color: white;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
+    outline: solid 3px black;
     padding: 30px 20px;
     transition: all 0.5s ease;
     white-space: nowrap;
@@ -87,6 +88,7 @@ nav .header .header-text {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: all 0.5s ease;
 }
 
 
@@ -148,9 +150,6 @@ nav .header .header-text {
     transition: all ease 0.5s;
 }
 
-.searchbar.journey, .help.journey{
-    display: none;
-}
 
 #map {
     position: absolute;
@@ -225,4 +224,73 @@ nav .header .header-text {
     font-size: 1.75rem;
 }
 
+.jp_head {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
 
+.journey_planner_menu .icon {
+    min-width: 80px;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    display: flex;
+    font-size: 1rem;
+    margin-right: 10px;
+    height: 50px;
+    color: white;
+    background-color: black;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.journey_planner_menu .searchbar input{
+    background-color: white;
+}
+
+.journey_planner_menu .searchbar{
+    background-color: white;
+    margin-top: 0;
+    border: solid 2px black;
+}
+
+.journey_planner_menu .menu {
+    margin:15px 0;
+}
+
+.journey_planner_menu .menu-text {
+    font-size: 1rem;
+}
+
+.submit_journey {
+    width: 100%;
+    text-align: center;
+}
+.submit_button {
+    font-size: 1.2rem;
+    background-color: white;
+    border: solid 2.5px black;
+    border-radius: 50px;
+    width: 150px;
+    height: 50px;
+}
+
+.submit_button:hover {
+    background-color: black;
+    color: white;
+}
+
+.datetimejourney {
+    position: relative;
+    margin: 0 auto;
+}
+
+.menubar.close {
+    display: none;
+}
+
+.journey_planner_menu.close {
+    animation: forwards;
+    display: none;
+}

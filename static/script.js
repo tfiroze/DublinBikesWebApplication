@@ -41,22 +41,31 @@ window.onload = function(){
   const journey_planner = document.getElementById("journey_planner");
   const help = document.getElementById('help');
   const search = document.getElementById('search');
-  const journey_icon = document.getElementById('journey_icon')
+  const menu_bar = document.getElementById('menu_bar');
+  const journey_planner_menu = document.getElementById('journey_planner_menu');
+
+  journey_planner_menu.style.opacity = 0
+
 
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
-    search.classList.remove("journey");
-    help.classList.remove("journey");
+    journey_planner_menu.classList.add('close');
+
   });
 
-  journey_planner.addEventListener("click", () => {
-    journey_planner 
-    sidebar.classList.toggle("close");
-    search.classList.toggle("journey");
-    help.classList.toggle("journey");
-    journey_icon.classList.toggle("journey")
+  journey_planner.addEventListener("click", () => 
+    {
+      if (sidebar.classList.contains('close'))
+        {
+          sidebar.classList.toggle("close");
+        }
+    else {
+        menu_bar.classList.add('close');
+        journey_planner_menu.classList.remove('close');
+        $('#journey_planner_menu').animate({opacity:0},0);
+        $('#journey_planner_menu').animate({opacity:1},500);
+    }
   });
-
 
   help.addEventListener("click", () => {
     sidebar.classList.toggle("close");
