@@ -1,6 +1,29 @@
 var markers = [];
 var map;
 var mc;
+
+function addMarkers(station_data){
+  for (const station of station_data) {
+    var marker = new google.maps.Marker({
+      position: {
+        lat: station.position_lat,
+        lng: station.position_lng,
+      },
+      map: map,
+      title: station.name,
+      station_number: station.number,
+    });
+    markers.push(marker);
+  }
+}
+
+async function getStations() {
+  markers = [];
+  const response = await fetch("http://127.0.0.1:5000/stations");
+  data = await response.json()
+  var station_data = await data;
+  addMarkers(station_data);
+}
 // Initialize and add the map
   function initMap() {
     const dublin = {lat: 53.3498, lng: -6.2603};
@@ -10,25 +33,6 @@ var mc;
       center: dublin,
       disableDefaultUI: true,
     });
-    
-    async function getStations() {
-      markers = [];
-      const response = await fetch("http://127.0.0.1:5000/stations");
-      data = await response.json()
-      var station_data = await data;
-      for (const station of station_data) {
-        var marker = new google.maps.Marker({
-          position: {
-            lat: station.position_lat,
-            lng: station.position_lng,
-          },
-          map: map,
-          title: station.name,
-          station_number: station.number,
-        });
-        markers.push(marker);
-      }
-    }
     getStations()
     console.log(markers);
     mc = new markerClusterer.MarkerClusterer({ map:map});
@@ -37,9 +41,15 @@ var mc;
   }
 window.initMap = initMap;
 function searchStations() {
-  console.log(mc);
   mc.removeMarkers(markers);
   const searchText = this.value.toLowerCase();
+
+  if (searchText == '') {
+    getStations();
+    mc.markers = markers;
+    return;
+  }
+
   var station_result = [];
   markers.forEach(marker => {
     const markerTitle = marker.getTitle().toLowerCase();
