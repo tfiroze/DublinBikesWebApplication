@@ -5,7 +5,6 @@ function addMarkerClickListener(marker, contentString) {
     content: contentString,
   });
 
-  
   marker.addListener("mouseover", () => {
     infowindow.open(map, marker);
   });
@@ -13,12 +12,11 @@ function addMarkerClickListener(marker, contentString) {
   marker.addListener("mouseout", () => {
     infowindow.close();
   });
-
 }
 
-function addMarkers(stations) {
+function addMarkers(stations, availabilityData) {
   for (const station of stations) {
-    console.log(station);
+    //console.log(station);
     var marker = new google.maps.Marker({
       position: {
         lat: station.position_lat,
@@ -33,20 +31,55 @@ function addMarkers(stations) {
       },
     });
 
-    var contentString = `
-      <div>
-        <h3>${station.name}</h3>
-        <p>Status: ${station.status}</p>
-        <p>Available Bikes: ${station.available_bikes}</p>
-        <p>Available Bike Stands: ${station.available_bike_stands}</p>
-      </div>
-    `;
+    let availability;
+    for (const a of availabilityData) {
+      if (parseInt(a.number) === parseInt(station.number)) {
+        availability = a;
+        break;
+      }
+    }
 
-    addMarkerClickListener(marker, contentString);
+    //console.log('Availability data:', availability); // Add this console log
+
+    // Check if availability data exists for the station
+    if (availability) {
+      var contentString = `
+        <div>
+          <h3>${station.name}</h3>
+          <p>Status: ${availability.status}</p>
+          <p>Available Bikes: ${availability.available_bikes}</p>
+          <p>Available Bike Stands: ${availability.available_bike_stands}</p>
+          <p>Last Update: ${availability.time}</p>
+        </div>
+      `;
+      addMarkerClickListener(marker, contentString);
+    } else {
+      console.warn(`No availability data found for station ${station.number}`);
+    }
     allMarkers.push(marker);
   }
 }
 
+function getAvailability() {
+  return fetch("http://127.0.0.1:5000/availability")
+    .then((response) => response.json());
+}
+
+function getStations(callback) {
+  fetch("http://127.0.0.1:5000/stations")
+    .then((response) => response.json())
+    .then((stationData) => {
+      console.log("Station data: ", stationData); // Add this console log
+      getAvailability().then((availabilityData) => {
+        console.log("Availability data: ", availabilityData); // Add this console log
+        addMarkers(stationData, availabilityData);
+
+        if (callback) {
+          callback();
+        }
+      });
+    });
+}
 
 
 function searchStations() {
@@ -61,19 +94,6 @@ function searchStations() {
       marker.setMap(null);
     }
   });
-}
-
-function getStations(callback) {
-  fetch("http://127.0.0.1:5000/stations")
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("fetch response", typeof data);
-      addMarkers(data);
-      
-      if (callback) {
-        callback();
-      }
-    });
 }
 
 function initMap() {
@@ -92,19 +112,20 @@ function initMap() {
 var map = null;
 window.initMap = initMap;
 
-window.onload = function(){
+window.onload = function () {
   const sidebar = document.getElementById("sidebar");
   const toggle = document.getElementById("toggle");
   const journey_planner = document.getElementById("journey_planner");
-  const help = document.getElementById('help');
-  const search = document.getElementById('search');
-  const journey_icon = document.getElementById('journey_icon')
+  const help = document.getElementById("help");
+  const search = document.getElementById("search");
+  const journey_icon = document.getElementById("journey_icon");
 
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
     search.classList.remove("journey");
     help.classList.remove("journey");
   });
+
 
   journey_planner.addEventListener("click", () => {
     journey_planner 

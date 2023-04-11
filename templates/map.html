@@ -42,7 +42,9 @@
                 <li class="menu searchbar" >
                     <div class="menu-link">
                         <i class="fa-solid fa-magnifying-glass icon" id="search"></i>
-                        <input type="search" name="stationSearchBox" id="search-station" placeholder="Search Stations..." class="menu-text">
+                        <input type="text" id="search-station" list="station-names" placeholder="Search for a station...">
+                        <datalist id="station-names"></datalist>
+
                     </div>
                 </li>
                 <li class="menu journey_planner">
