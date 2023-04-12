@@ -95,7 +95,15 @@ function searchStations() {
     }
   });
 }
+function populateDatalist(stations) {
+  const datalist = document.getElementById("station-names");
 
+  for (const station of stations) {
+    const option = document.createElement("option");
+    option.value = station.name;
+    datalist.appendChild(option);
+  }
+}
 function initMap() {
   const dublin = { lat: 53.3498, lng: -6.2603 };
   map = new google.maps.Map(document.getElementById("map"), {
