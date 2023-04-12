@@ -86,19 +86,18 @@ def load_models():
 model_arr, model_dep = load_models()
 @app.route("/predict_available_bikes/<int:station_number>", methods=["POST"])
 def predict_bikes(station_number):
-    data = request.get_json()
+    features = [request.json[k] for k in ["hour", "day", "minute", "month", "temperature", "wind_speed", "wind_direction", "weather_code"]]
     model = model_arr[station_number]
-    features = [data["hour"], data["day"], data["minute"], data["month"], data["temperature"], data["wind_speed"], data["wind_direction"], data["weather_code"]]
-    prediction = model.predict([features])[0]
+    prediction = round(model.predict([features])[0])
     return jsonify({"prediction": prediction})
 
 @app.route("/predict_available_bike_stands/<int:station_number>", methods=["POST"])
 def predict_bike_stands(station_number):
-    data = request.get_json()
+    features = [request.json[k] for k in ["hour", "day", "minute", "month", "temperature", "wind_speed", "wind_direction", "weather_code"]]
     model = model_dep[station_number]
-    features = [data["hour"], data["day"], data["minute"], data["month"], data["temperature"], data["wind_speed"], data["wind_direction"], data["weather_code"]]
-    prediction = model.predict([features])[0]
+    prediction = round(model.predict([features])[0])
     return jsonify({"prediction": prediction})
+
 
 
 if __name__ == '__main__':

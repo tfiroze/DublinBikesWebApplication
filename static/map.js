@@ -146,62 +146,64 @@ function populateStationDropdowns(station_data) {
   }
   async function handleJourneySubmit(event) {
     event.preventDefault();
-  
+
     const startStation = document.getElementById("search-station-start").value;
     const endStation = document.getElementById("search-station-end").value;
     const dateTime = document.getElementById("datetime-input").value;
-  
+
     console.log("Start Station:", startStation);
     console.log("End Station:", endStation);
     console.log("Date and Time:", dateTime);
-  
+
     const dateObj = new Date(dateTime);
     const hour = dateObj.getHours();
     const day = dateObj.getDay();
     const minute = dateObj.getMinutes();
     const month = dateObj.getMonth() + 1;
-  
+
     const requestData = {
-      hour,
-      day,
-      minute,
-      month,
-      // Add other required data such as temperature, wind_speed, wind_direction, weather_code
-      temperature: 10,
-      wind_speed: 5,
-      wind_direction: 180,
-      weather_code: 1,
+        hour,
+        day,
+        minute,
+        month,
+        // Add other required data such as temperature, wind_speed, wind_direction, weather_code
+        temperature: 10,
+        wind_speed: 5,
+        wind_direction: 180,
+        weather_code: 1,
     };
-  
-    const startBikesResponse = await fetch(`/predict_available_bikes/${startStation}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestData),
+
+    const startBikesResponse = await fetch(`http://127.0.0.1:5000/predict_available_bikes/${startStation}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
     });
     const startBikesData = await startBikesResponse.json();
-    console.log("Start Station Available Bikes:", startBikesData.prediction);
-  
-    const endBikesResponse = await fetch(`/predict_available_bike_stands/${endStation}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestData),
+    console.log("Start Station Available Bikes:", startBikesData);
+
+    const endBikesResponse = await fetch(`http://127.0.0.1:5000/predict_available_bike_stands/${endStation}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
     });
     const endBikesData = await endBikesResponse.json();
-    console.log("End Station Available Bike Stands:", endBikesData.prediction);
-    const output = `
-    <p>Start Station: ${startBikesData.prediction}</p>
-    <p>End Station: ${endBikesData.prediction}</p>
-    <p>Time: ${dateObj}</p>
-  `;
+    console.log("End Station Available Bike Stands:", endBikesData);
 
-  // Update the innerHTML of the journey_planner_info div
-  const journeyPlannerInfo = document.querySelector("#journey_planner_info");
-  journeyPlannerInfo.innerHTML = output;
-  }
+    const output = `
+        <p>Start Station: ${startBikesData.prediction}</p>
+        <p>End Station: ${endBikesData.prediction}</p>
+        
+    `;
+
+    // Update the innerHTML of the journey_planner_info div
+    const journeyPlannerInfo = document.querySelector("#journey_planner_info");
+    journeyPlannerInfo.innerHTML = output;
+}
+
   
   
 
