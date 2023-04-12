@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--Google API-->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,30 +19,19 @@
     <script src="../static/script_map.js"></script>
 
 
+    <!--Google API-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+
     
     <!-- Title-->
     <title>Dublin Bikes</title>
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-                <a href="" class="navbar-brand" id="logo">
-                    <img src="../images/dublin_bikes_logo.png" alt="dublin_bikes_logo" id = logo_image>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class= "collapse navbar-collapse" id="navbarContent">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <p class="nav-link">Journey Planner</p>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">How to use</a>
-                        </li>
-                    </ul>
-                </div>
+    <nav class="sidebar close" id="sidebar">
+        <div class="header">
+            <div class="img-container">
+                <img src="../images/dublin_bikes_logo.png" alt="Dublin Bikes Logo" class = "logo-image">
             </div>
             <span class="header-text">Dublin Bikes</span>
             <i class="fa-solid fa-angle-right expand-toggle" id="toggle"></i>
@@ -50,23 +39,25 @@
         </div>
         <div class="menubar">
             <ul class="menus">
-                <li class="menu searchbar">
+                <li class="menu searchbar" >
                     <div class="menu-link">
-                        <i class="fa-solid fa-magnifying-glass icon"></i>
-                        <input type="search" name="stationSearchBox" id="search-station" placeholder="Search Stations..." class="menu-text">
+                        <i class="fa-solid fa-magnifying-glass icon" id="search"></i>
+                        <input type="text" id="search-station" list="station-names" placeholder="Search for a station...">
+                        <datalist id="station-names"></datalist>
+
                     </div>
                 </li>
-                <li class="menu">
-                    <a href="" class="menu-link">
-                        <i class="fa-solid fa-diamond-turn-right icon"></i>
+                <li class="menu journey_planner">
+                    <p href="" class="menu-link" >
+                        <i class="fa-solid fa-diamond-turn-right icon" id="journey_planner"></i>
                         <span class="menu-text">Journey Planner</span>
-                    </a>
+                    </p>
                 </li>
-                <li class="menu">
-                    <a href=""  class="menu-link">
-                        <i class="fa-solid fa-circle-info icon"></i>
+                <li class="menu help" >
+                    <p class="menu-link" >
+                        <i class="fa-solid fa-circle-info icon" id="help"></i>
                         <span class="menu-text">How to Use</span>
-                    </a>
+                    </p>
                 </li>
             </ul>
             
