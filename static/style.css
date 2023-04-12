@@ -294,6 +294,28 @@ nav .header .header-text {
     display: none;
 }
 
+.dropdown-container {
+    position: relative;
+    width: 100%;
+    max-height: 200px; /* Adjust the height as needed */
+    overflow-y: auto;
+    margin-bottom: 15px;
+  }
+  
+  .dropdown-container select {
+    width: 100%;
+    padding: 5px;
+    font-size: 1rem;
+    border: 2px solid black;
+    border-radius: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+  }
+  
+
+
 .availability_icon {
     font-size: 2rem;
 }
@@ -317,3 +339,4 @@ nav .header .header-text {
     font-size: 1.1rem;
     text-align: center;
 }
+
