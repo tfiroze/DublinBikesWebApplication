@@ -71,6 +71,12 @@ window.onload = function(){
   const menu_bar = document.getElementById('menu_bar');
   const journey_planner_menu = document.getElementById('journey_planner_menu');
   const search_station = document.getElementById('search-station');
+  const icon_result_start = document.getElementById('icon_result_start');
+  const icon_result_end = document.getElementById('icon_result_end');
+  const start_search = document.getElementById('search-station-start');
+  const end_search = document.getElementById('search-station-end');
+  const journey_planner_submit = document.getElementById('journey_planner_submit');
+
 
   search_station.addEventListener("input", searchStations);
 
@@ -80,6 +86,10 @@ window.onload = function(){
     menu_bar.classList.remove('close');
 
   });
+
+  journey_planner_submit.addEventListener("click", () => {
+    
+  })
 
   journey_planner.addEventListener("click", () => 
     {
@@ -111,8 +121,6 @@ window.onload = function(){
     time.innerHTML = t.toLocaleTimeString();
     date.innerHTML = t.toLocaleDateString();
   }, 1000)
-
-
 
 }
 
