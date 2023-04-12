@@ -40,6 +40,7 @@ async function getStations() {
     mc.markers = markers;
   }
 window.initMap = initMap;
+
 function searchStations() {
   mc.removeMarkers(markers);
   const searchText = this.value.toLowerCase();
@@ -49,7 +50,6 @@ function searchStations() {
     mc.markers = markers;
     return;
   }
-
   var station_result = [];
   markers.forEach(marker => {
     const markerTitle = marker.getTitle().toLowerCase();
@@ -77,6 +77,7 @@ window.onload = function(){
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
     journey_planner_menu.classList.add('close');
+    menu_bar.classList.remove('close');
 
   });
 
