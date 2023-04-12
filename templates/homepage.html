@@ -31,7 +31,7 @@
     <title>Dublin Bikes</title>
 </head>
 <body>
-    <nav class="sidebar close" id="sidebar">
+    <nav class="sidebar" id="sidebar">
         <div class="header">
             <div class="img-container">
                 <img src="../images/dublin_bikes_logo.png" alt="Dublin Bikes Logo" class = "logo-image">
@@ -40,7 +40,7 @@
             <i class="fa-solid fa-angle-right expand-toggle" id="toggle"></i>
 
         </div>
-        <div class="menubar" id = "menu_bar">
+        <div class="menubar close" id = "menu_bar">
             <ul class="menus">
                 <li class="menu searchbar" >
                     <div class="menu-link">
@@ -63,27 +63,27 @@
             </ul>
         </div>
 
-        <div class="journey_planner_menu close" id="journey_planner_menu">
+        <div class="journey_planner_menu" id="journey_planner_menu">
             <div class="jp_head">
                 <h1>Journey Planner</h1>
             </div>
-            <form action="" class="journey_planner-form">
+            <div class="journey_planner-form">
                 <div class="start_dest">
-                    <div class="menu searchbar journey_planner" >
+                    <div class="menu searchbar journey_planner start" >
                        <div class="menu-link">
-                           <p class="icon">From</p>
-                           <input type="search" name="stationSearchBox" id="search-station-start" placeholder="Search Stations..." class="menu-text start-search">
+                           <p class="icon" id='icon_result_start'>From</p>
+                           <input type="search" name="stationSearchBox" id="search-station-start" placeholder="Search Stations..." class="menu-text start-search result">
                        </div>
                    </div>
+                   
                </div>
                <div class="end_dest">
-                   <div class="menu searchbar journey_planner" >
+                   <div class="menu searchbar journey_planner end" >
                        <div class="menu-link">
-                           <p class="icon">To</p>
-                           <input type="search" name="stationSearchBox" id="search-station-end" placeholder="Search Stations..." class="menu-text start-search">
+                           <p class="icon" id='icon_result_end'>To</p>
+                           <input type="search" name="stationSearchBox" id="search-station-end" placeholder="Search Stations..." class="menu-text end-search result">
                        </div>
                    </div>
-   
                </div>
                <div class="datetimejourney">
                     <div class="menu searchbar journey_planner time" >
@@ -94,13 +94,32 @@
                     </div>
                </div>
                <div class="submit_journey">
-                    <input type="submit" value="Submit" class="submit_button">
+                    <input type="submit" value="Submit" class="submit_button" id="journey_planner_submit">
                </div>
-            </form>
+            </div>
         </div>
 
         <div class="journey_planner_info" id="journey_planner_info">
-            
+            <div class="from">
+                <span class="heading">From</p>
+                <h1 class="station_name">Station Name</h1>
+                <i class="fa-solid fa-bicycle jpi_icon"></i>
+                <span class="bicycle_availability" id="end_dest_availability">25</span>
+            </div>
+            <div class="to">
+                <p class="heading">To</p>
+                <h1 class="station_name">Station Name</h1>
+                <i class="fa-solid fa-square-parking jpi_icon"></i>
+                <span class="bicycle_availability" id="start_dest_availability">25</span>
+            </div>
+            <div class="time">
+                <p class="heading">Time</p>
+                <i class="fa-solid fa-calendar jpi_icon"></i>
+                <span class="bicycle_availability" id="start_dest_availability">30/02/2000</span>
+                <i class="fa-solid fa-clock jpi_icon"></i>
+                <span class="bicycle_availability" id="start_dest_availability">6:00 PM</span>
+
+            </div>
         </div>
     </nav>
 
