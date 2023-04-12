@@ -194,8 +194,8 @@ function populateStationDropdowns(station_data) {
     console.log("End Station Available Bike Stands:", endBikesData);
 
     const output = `
-        <p>Start Station: ${startBikesData.prediction}</p>
-        <p>End Station: ${endBikesData.prediction}</p>
+        <p>Start Station Available Bikes: ${startBikesData.prediction}</p>
+        <p>End Station Available Bike Stands: ${endBikesData.prediction}</p>
         
     `;
 
