@@ -22,7 +22,6 @@
     border-bottom-right-radius: 50px;
     outline: solid 3px black;
     padding: 30px 20px;
-    transition: all 0.5s ease;
     white-space: nowrap;
 }
 
@@ -293,4 +292,28 @@ nav .header .header-text {
 .journey_planner_menu.close {
     animation: forwards;
     display: none;
+}
+
+.availability_icon {
+    font-size: 2rem;
+}
+
+.from, .to, .time {
+    border: solid 3px black;
+    border-radius: 7px;
+    margin-top: 10px;
+}
+
+.journey_planner_info .heading {
+    background-color: black;
+    color: white;
+    height: 50px;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.station_name {
+    font-size: 1.1rem;
+    text-align: center;
 }
