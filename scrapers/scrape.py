@@ -1,34 +1,38 @@
 from datetime import datetime
+from datetime import datetime
+
 def availability(data):
-    p="https://api.open-meteo.com/v1/forecast?latitude=53.30&longitude=-6.22&daily=precipitation_sum,rain_sum,precipitation_probability_max&current_weather=true&timezone=Europe%2FLondon"
+    p = "https://api.open-meteo.com/v1/forecast?latitude=53.30&longitude=-6.22&daily=precipitation_sum,rain_sum,precipitation_probability_max&current_weather=true&timezone=Europe%2FLondon"
     r = requests.get(p)
-    for i in range(0,len(data)):
+    res = json.loads(r.text)
+
+    for item in data:
         now = datetime.now()
         now.strftime('%Y-%m-%d %H:%M:%S')
-        
-        res = json.loads(r.text)
-        insert1=f"INSERT INTO weather (number,time,temperature,wind_speed,wind_direction,weather_code,precipitation_sum ,rain_sum ,precipitation_probability ) Values(%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-        values1=(
-                data[i]['number'],
-                now,
-                res['current_weather']['temperature'],
-                res['current_weather']['windspeed'],
-                res['current_weather']['winddirection'],
-                res['current_weather']['weathercode'],
-                res['daily']['precipitation_sum'][0],
-                res['daily']['rain_sum'][0],
-                res['daily']['precipitation_probability_max'][0]
+
+        insert1 = f"INSERT INTO weather (number,time,temperature,wind_speed,wind_direction,weather_code,precipitation_sum ,rain_sum ,precipitation_probability ) Values(%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        values1 = (
+            item['number'],
+            now,
+            res['current_weather']['temperature'],
+            res['current_weather']['windspeed'],
+            res['current_weather']['winddirection'],
+            res['current_weather']['weathercode'],
+            res['daily']['precipitation_sum'][0],
+            res['daily']['rain_sum'][0],
+            res['daily']['precipitation_probability_max'][0]
         )
 
-        insert2=f"INSERT INTO availability (number,last_update,available_bikes,available_bike_stands,status,time) Values(%s,%s,%s,%s,%s,%s)"
-        values2=(
-                data[i]['number'],
-                data[i]['last_update'],
-                data[i]['available_bikes'],
-                data[i]['available_bike_stands'],
-                data[i]['status'],
-                now)
-        
+        insert2 = f"INSERT INTO availability (number,last_update,available_bikes,available_bike_stands,status,time) Values(%s,%s,%s,%s,%s,%s)"
+        values2 = (
+            item['number'],
+            item['last_update'],
+            item['available_bikes'],
+            item['available_bike_stands'],
+            item['status'],
+            now
+        )
+
         mycursor.execute(insert1, values1)
         engine.commit()
         mycursor.execute(insert2, values2)

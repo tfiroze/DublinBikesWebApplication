@@ -13,7 +13,7 @@ function addMarkerClickListener(marker, contentString) {
     infowindow.close();
   });
 }
-
+console.log(station_data)
 function addMarkers(stations, availabilityData) {
   for (const station of stations) {
     //console.log(station);

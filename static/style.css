@@ -339,4 +339,12 @@ nav .header .header-text {
     font-size: 1.1rem;
     text-align: center;
 }
+.journey_planner_info{
+    
+    color: black;
+    height: 50px;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.1rem;
+}
 
