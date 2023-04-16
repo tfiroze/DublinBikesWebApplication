@@ -36,6 +36,7 @@ def availability(data):
         mycursor.execute(insert1, values1)
         engine.commit()
         mycursor.execute(insert2, values2)
+        engine.commit()
 
     
 import mysql.connector
