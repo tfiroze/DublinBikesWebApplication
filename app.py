@@ -3,6 +3,7 @@ import pymysql.cursors
 from flask_cors import CORS
 import pickle
 from scrapers import scrape_weather
+from datetime import datetime
 
 global station_data
 app = Flask(__name__)
@@ -126,6 +127,60 @@ def predict_bike_stands(station_number):
     prediction = round(model.predict([features])[0])
     return jsonify({"prediction": prediction})
 
+def decode_weather_code(weathercode):
+    weather_code_map = {
+        0: "Clear sky",
+        1: "Partly cloudy",
+        2: "Cloudy",
+        3: "Overcast",
+        4: "Fog",
+        5: "Haze",
+        6: "Smoke",
+        7: "Dust or sand, in suspension, visibility reduced",
+        8: "Widespread dust or sand, visibility reduced",
+        9: "Blowing dust or sand, visibility reduced",
+        10: "Mist",
+        11: "Patches of shallow fog",
+        12: "Light drizzle",
+        13: "Drizzle",
+        14: "Heavy drizzle",
+        15: "Light rain",
+        16: "Rain",
+        17: "Heavy rain",
+        18: "Light freezing rain",
+        19: "Freezing rain",
+        20: "Heavy freezing rain",
+        21: "Light rain shower",
+        22: "Rain shower",
+        23: "Heavy rain shower",
+        24: "Light snow",
+        25: "Snow",
+        26: "Heavy snow",
+        27: "Light snow shower",
+        28: "Snow shower",
+        29: "Heavy snow shower",
+        30: "Light rain and snow",
+        31: "Rain and snow",
+        32: "Heavy rain and snow",
+        33: "Thunderstorm",
+        34: "Heavy thunderstorm",
+        35: "Thunderstorm with hail",
+        36: "Heavy thunderstorm with hail",
+        37: "Squalls",
+        38: "Funnel cloud(s), tornado or waterspout",
+        39: "Tropical storm",
+        40: "Hurricane or typhoon",
+    }
+
+    return weather_code_map.get(weathercode, "Unknown")
+
+
+@app.route("/current_weather")
+def get_current_weather():
+    date = datetime.now  # Replace this with the current date or the date you want to get the weather for
+    temp, precipitation_sum, rain_sum, precipitation_probability_max, weathercode, windspeed, winddir = get_weather_data(date)
+    decoded_weather_code = decode_weather_code(weathercode)
+    return jsonify({"temperature": temp, "weather_description": decoded_weather_code})
 
 
 if __name__ == '__main__':

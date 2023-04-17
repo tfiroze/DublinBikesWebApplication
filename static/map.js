@@ -17,7 +17,7 @@ function addMarkerClickListener(marker, contentString) {
 //console.log(station_data)
 
 function addMarkers(station_data,availabilityData){
-  console.log(availabilityData)
+  //console.log(availabilityData)
   for (const station of station_data) {
     var marker = new google.maps.Marker({
       position: {
@@ -149,17 +149,14 @@ function populateStationDropdowns(station_data) {
     const day = dateObj.getDay();
     const minute = dateObj.getMinutes();
     const month = dateObj.getMonth() + 1;
+    const date = dateObj.toISOString().split("T")[0];
 
     const requestData = {
         hour,
         day,
         minute,
         month,
-        // Add other required data such as temperature, wind_speed, wind_direction, weather_code
-        temperature: 10,
-        wind_speed: 5,
-        wind_direction: 180,
-        weather_code: 1,
+        date,
     };
 
     const startBikesResponse = await fetch(`http://127.0.0.1:5000/predict_available_bikes/${startStation}`, {
@@ -192,9 +189,17 @@ function populateStationDropdowns(station_data) {
     const journeyPlannerInfo = document.querySelector("#journey_planner_info");
     journeyPlannerInfo.innerHTML = output;
 }
-
+var temp  
+var weather_description
+async function fetch_weather(){
+  const res = await  fetch('http://127.0.0.1:5000/current_weather')
+  data = await res.json()
+  temp=data.temperature
+  weather_description=data.weather_description
   
+}
   
+fetch_weather()
 
 window.onload = function(){
   const sidebar = document.getElementById("sidebar");
@@ -206,7 +211,6 @@ window.onload = function(){
   const journey_planner_menu = document.getElementById('journey_planner_menu');
   const search_station = document.getElementById('search-station');
   const submitButton = document.querySelector("input[type='submit']");
-  
 
   
   
@@ -249,6 +253,12 @@ window.onload = function(){
     time.innerHTML = t.toLocaleTimeString();
     date.innerHTML = t.toLocaleDateString();
   }, 1000)
+  fetch_weather()
+  let tempe = document.getElementById("temp");
+  let weather_desc = document.getElementById("weather_desc");
+  tempe.innerHTML = temp + "&#176C";
+  weather_desc.innerHTML = weather_description
+
 
 
 
