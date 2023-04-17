@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 import pymysql.cursors
 from flask_cors import CORS
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -10,6 +11,12 @@ conn = pymysql.connect(
     charset="utf8mb4",
     cursorclass=pymysql.cursors.DictCursor
 )
+conn2 = pymysql.connect(
+    host="softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com",user="soft",password="password",database="dublinbikes",
+    charset="utf8mb4",
+    cursorclass=pymysql.cursors.DictCursor
+)
+
 
 # Define Flask route to get station data
 @app.route('/stations')
@@ -24,17 +31,33 @@ def get_stations():
     return jsonify(results)
 
 
-# Define Flask route to get station data
+# # Define Flask route to get station data
+# @app.route('/history')
+# def get_history():
+#     # Query the database to retrieve station data
+#     with conn2.cursor() as cursor:
+#         sql = "SELECT * FROM dublinbikes.availability WHERE time >= now() - interval 6 hour"
+#         cursor.execute(sql)
+#         results = cursor.fetchall()
+
+#     # Return the data as a JSON object
+#     return jsonify(results)
+
 @app.route('/history')
-def get_history():
-    # Query the database to retrieve station data
-    with conn.cursor() as cursor:
-        sql = "SELECT * FROM dublinbikes.availability WHERE time >= now() - interval 6 hour"
+def get_history2():
+    with conn2.cursor() as cursor:
+        sql = "SELECT * FROM dublinbikes.availability WHERE time >= now() - interval 6 hour ORDER BY number"
         cursor.execute(sql)
         results = cursor.fetchall()
-
-    # Return the data as a JSON object
-    return jsonify(results)
+        stations={}
+        print('STATIONS IS EMPTY', stations)
+        for r in results:
+            number=r["number"]
+            if number in stations:
+                stations[number].append(r)
+            else:
+                stations[number] = [r]
+    return jsonify(stations)
 
 
 
