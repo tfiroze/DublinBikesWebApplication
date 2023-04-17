@@ -1,4 +1,6 @@
 test.js
 test.html
 test.py
-models/
+.vscode/
+.ipynb_checkpoints/
+__pycache__/
