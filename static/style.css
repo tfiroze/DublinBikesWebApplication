@@ -20,11 +20,8 @@
     background-color: white;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
-    /* border-top: 2px solid black;
-    border-bottom: 2px solid black;
-    border-right: 2px solid black; */
+    outline: solid 3px black;
     padding: 30px 20px;
-    transition: all 0.5s ease;
     white-space: nowrap;
 }
 
@@ -90,6 +87,7 @@ nav .header .header-text {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: all 0.5s ease;
 }
 
 
@@ -151,9 +149,6 @@ nav .header .header-text {
     transition: all ease 0.5s;
 }
 
-.searchbar.journey, .help.journey{
-    display: none;
-}
 
 #map {
     position: absolute;
@@ -228,9 +223,133 @@ nav .header .header-text {
     font-size: 1.75rem;
 }
 
+
 .graphcontainer{
 width: 100%;
 text-align: center;
+.jp_head {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.journey_planner_menu .icon {
+    min-width: 80px;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    display: flex;
+    font-size: 1rem;
+    margin-right: 10px;
+    height: 50px;
+    color: white;
+    background-color: black;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.journey_planner_menu .searchbar input{
+    background-color: white;
+}
+
+.journey_planner_menu .searchbar{
+    background-color: white;
+    margin-top: 0;
+    border: solid 2px black;
+}
+
+.journey_planner_menu .menu {
+    margin:15px 0;
+}
+
+.journey_planner_menu .menu-text {
+    font-size: 1rem;
+}
+
+.submit_journey {
+    width: 100%;
+    text-align: center;
+}
+.submit_button {
+    font-size: 1.2rem;
+    background-color: white;
+    border: solid 2.5px black;
+    border-radius: 50px;
+    width: 150px;
+    height: 50px;
+}
+
+.submit_button:hover {
+    background-color: black;
+    color: white;
+}
+
+.datetimejourney {
+    position: relative;
+    margin: 0 auto;
+}
+
+.menubar.close {
+    display: none;
+}
+
+.journey_planner_menu.close {
+    animation: forwards;
+    display: none;
+}
+
+.dropdown-container {
+    position: relative;
+    width: 100%;
+    max-height: 200px; /* Adjust the height as needed */
+    overflow-y: auto;
+    margin-bottom: 15px;
+  }
+  
+  .dropdown-container select {
+    width: 100%;
+    padding: 5px;
+    font-size: 1rem;
+    border: 2px solid black;
+    border-radius: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+  }
+  
+
+
+.availability_icon {
+    font-size: 2rem;
+}
+
+.from, .to, .time {
+    border: solid 3px black;
+    border-radius: 7px;
+    margin-top: 10px;
+}
+
+.journey_planner_info .heading {
+    background-color: black;
+    color: white;
+    height: 50px;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.station_name {
+    font-size: 1.1rem;
+    text-align: center;
+}
+.journey_planner_info{
+    
+    color: black;
+    height: 50px;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.1rem;
 }
 
 .graph {
