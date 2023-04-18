@@ -179,7 +179,7 @@ def decode_weather_code(weathercode):
         40: "Hurricane or typhoon",
     }
 
-    return weather_code_map.get(weathercode, "Unknown")
+    return weather_code_map.get(weathercode, "Sunny")
 
 
 @app.route("/current_weather")
@@ -209,7 +209,6 @@ def get_history2():
         cursor.execute(sql)
         results = cursor.fetchall()
         stations={}
-        print('STATIONS IS EMPTY', stations)
         for r in results:
             number=r["number"]
             if number in stations:
