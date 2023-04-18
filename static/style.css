@@ -223,6 +223,11 @@ nav .header .header-text {
     font-size: 1.75rem;
 }
 
+
+.graphcontainer{
+width: 100%;
+text-align: center;
+}
 .jp_head {
     width: 100%;
     text-align: center;
@@ -348,3 +353,24 @@ nav .header .header-text {
     font-size: 1.1rem;
 }
 
+.graph {
+    width: 50%;
+    height: 50%;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+    bottom: -50%;
+    left: 25%;
+    transition: all 0.5s ease;
+    background-color: white;
+    border-top-right-radius: 50px;
+    border-top-left-radius: 50px;
+    border-top: 2px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    padding-top: 20px;
+    padding-bottom: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+}

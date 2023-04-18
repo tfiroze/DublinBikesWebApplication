@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import pymysql.cursors
 from flask_cors import CORS
+import json
 import pickle
 from scrapers import scrape_weather
 from datetime import datetime
@@ -17,6 +18,12 @@ conn = pymysql.connect(
     charset="utf8mb4",
     cursorclass=pymysql.cursors.DictCursor
 )
+conn2 = pymysql.connect(
+    host="softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com",user="soft",password="password",database="dublinbikes",
+    charset="utf8mb4",
+    cursorclass=pymysql.cursors.DictCursor
+)
+
 
 # Define Flask route to get station data
 station_data = None
@@ -172,7 +179,7 @@ def decode_weather_code(weathercode):
         40: "Hurricane or typhoon",
     }
 
-    return weather_code_map.get(weathercode, "Unknown")
+    return weather_code_map.get(weathercode, "Sunny")
 
 
 @app.route("/current_weather")
@@ -181,6 +188,35 @@ def get_current_weather():
     temp, precipitation_sum, rain_sum, precipitation_probability_max, weathercode, windspeed, winddir = get_weather_data(date)
     decoded_weather_code = decode_weather_code(weathercode)
     return jsonify({"temperature": temp, "weather_description": decoded_weather_code})
+
+
+# # Define Flask route to get station data
+# @app.route('/history')
+# def get_history():
+#     # Query the database to retrieve station data
+#     with conn2.cursor() as cursor:
+#         sql = "SELECT * FROM dublinbikes.availability WHERE time >= now() - interval 6 hour"
+#         cursor.execute(sql)
+#         results = cursor.fetchall()
+
+#     # Return the data as a JSON object
+#     return jsonify(results)
+
+@app.route('/history')
+def get_history2():
+    with conn2.cursor() as cursor:
+        sql = "SELECT * FROM dublinbikes.availability WHERE time >= now() - interval 6 hour ORDER BY number"
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        stations={}
+        for r in results:
+            number=r["number"]
+            if number in stations:
+                stations[number].append(r)
+            else:
+                stations[number] = [r]
+    return jsonify(stations)
+
 
 
 if __name__ == '__main__':
