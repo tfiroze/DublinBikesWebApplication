@@ -3,6 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Google API-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <!--Google charts API-->
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+      google.charts.load('current', {packages: ['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+    </script>
 
 
     
@@ -138,6 +147,10 @@
 
         <!-- <i class="fa-solid fa-angle-down expand-toggle-weather" id="toggle-weather"></i> -->
         
+    </div>
+    
+    <div class="graph" id="OccGraph">
+        <p>Pwease exist</p>
     </div>
 
     

@@ -5,7 +5,6 @@ function addMarkerClickListener(marker, contentString) {
   var infowindow = new google.maps.InfoWindow({
     content: contentString,
   });
-
   marker.addListener("mouseover", () => {
     infowindow.open(map, marker);
   });
@@ -13,8 +12,38 @@ function addMarkerClickListener(marker, contentString) {
   marker.addListener("mouseout", () => {
     infowindow.close();
   });
+  
+  marker.addListener("click", () => {
+    drawChart(occupancy)
+  });
+
+}
+
+function drawChart(occupancy){
+
+  var occupancyTable = google.visualization.arrayToDataTable(occupancy);
+
+  var options = {
+    width: "100%",
+    height: "100%",
+    legend: { position: 'top', maxLines: 3 },
+    bar: { groupWidth: '75%' },
+    isStacked: true,
+    colors: ['#8A00C2', '#65FE08']
+  };
+  
+  var graphdiv = document.getElementById('OccGraph');
+  var chart = new google.visualization.ColumnChart(graphdiv);
+  chart.draw(occupancyTable, options);
+
+  graphdiv.style.transform = "translateY(-100%)";
+  window.addEventListener('resize', function() {
+    chart.draw(occupancyTable, options);
+  })
+
 }
 //console.log(station_data)
+
 
 function addMarkers(station_data,availabilityData){
   //console.log(availabilityData)
@@ -32,6 +61,79 @@ function addMarkers(station_data,availabilityData){
         scaledSize: new google.maps.Size(35, 35),
       },
     });
+
+    var number = station.number;
+    var stathist = history[number]; //get the array with just the station number
+
+    var recent = null; //will hold most recent time
+    var recentstat = null; //will hold dictionary containing most recent time
+   
+    stathist.forEach(stat => { //short for station history don't @ me
+    const time = stat.last_update; //using last_update becase it's easier to compare and its not like the data will be different without an update
+    if (!recent || time > recent) {
+      recent = time;
+      recentstat = stat;
+    }})
+
+    var contentString = `
+      <div>
+        <h3>${station.name}</h3>
+        <p>Status: ${recentstat.status}</p>
+        <p>Available Bikes: ${recentstat.available_bikes}</p>
+        <p>Available Bike Stands: ${recentstat.available_bike_stands}</p>
+      </div>
+    `;
+
+    //create dictionary holding all updates within each hour
+    //for each hour, go through and average the number of bikes and stands
+    //return an array of arrays that's like [time, average bikes, average stands]
+    //Make graph
+    var hourstat= {}
+    var occupancy=[["Time ","Available Bikes ", "Available Stands " ]]
+    var date
+    var hour
+    for (c = 0; c < stathist.length; ++c) {
+      date=new Date (stathist[c].time)
+      hour=date.getHours()
+      if (hour in hourstat){
+        hourstat[hour].push(stathist[c])
+      }
+      else{
+        hourstat[hour]=[stathist[c]]
+      }
+    }
+
+    var len = Object.keys(hourstat).length
+    for(var key in hourstat){
+      var avgbike=0
+      var avgstand=0
+      for (i = 0; i < hourstat[key].length; ++i){
+        avgbike+=hourstat[key][i]["available_bikes"]
+        avgstand+=hourstat[key][i]["available_bike_stands"]
+      }
+
+      avgbike/=hourstat[key].length
+      avgstand/=hourstat[key].length
+      var timestr
+      if (key>12){
+        key=key-12
+        timestr=key.toString()+"pm"
+      }
+      else if (key==12){
+        timestr="12pm"
+      }
+      else if (key==0){
+        timestr="12am"
+      }
+      else{
+        timestr=key.toString()+"am"
+      }
+      occupancy.push([timestr, avgbike, avgstand])
+    }
+
+    addMarkerClickListener(marker, contentString, occupancy);
+    allMarkers.push(marker);
+
     let availability;
     for (const a of availabilityData) {
       if (parseInt(a.number) === parseInt(station.number)) {
@@ -115,6 +217,7 @@ function searchStations() {
   mc.markers = station_result;
   //console.log(mc.markers.length);
 }
+
 
 
 function populateStationDropdowns(station_data) {
