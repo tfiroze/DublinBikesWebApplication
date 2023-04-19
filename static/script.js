@@ -289,6 +289,8 @@ window.onload = function(){
   
   
   search_station.addEventListener("click", async function() {
+    journey_planner.classList.add('close');
+    help_menu.classList.add('close');
     console.log(await searchPlaces(search_station));
   })
   
