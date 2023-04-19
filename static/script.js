@@ -1,6 +1,8 @@
 var markers = [];
 var map;
 var mc;
+var directionService;
+var directionRenderer;
 function addMarkerClickListener(marker, contentString) {
   var infowindow = new google.maps.InfoWindow({
     content: contentString,
@@ -73,7 +75,6 @@ async function getStations() {
     // Pass the availabilityData to the addMarkers function
     //addMarkers(station_data, availabilityData);
     setInterval(addMarkers(station_data, availabilityData), 300000);
-    populateStationDropdowns(station_data); // Make sure to add this line
   }
 
   // Initialize and add the map
@@ -92,19 +93,9 @@ async function getStations() {
     mc = new markerClusterer.MarkerClusterer({ map:map});
     // console.log(mc);
     mc.markers = markers;
+
   }
 window.initMap = initMap;
-
-function searchStations2(input) {
-  const search = new google.maps.places.SearchBox(input);
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-  // Bias the SearchBox results towards current map's viewport.
-  map.addListener("bounds_changed", () => {
-    searchBox.setBounds(map.getBounds());
-  });
-
-  
-}
 
 function searchStations() {
   mc.removeMarkers(markers);
@@ -127,23 +118,6 @@ function searchStations() {
   //console.log(mc.markers.length);
 }
 
-
-function populateStationDropdowns(station_data) {
-    const startDropdown = document.getElementById("search-station-start");
-    const endDropdown = document.getElementById("search-station-end");
-  
-    for (const station of station_data) {
-      const startOption = document.createElement("option");
-      startOption.value = station.number;
-      startOption.text = station.name;
-      startDropdown.add(startOption);
-  
-      const endOption = document.createElement("option");
-      endOption.value = station.number;
-      endOption.text = station.name;
-      endDropdown.add(endOption);
-    }
-  }
   async function handleJourneySubmit(event) {
     event.preventDefault();
 
@@ -212,40 +186,57 @@ async function fetch_weather(){
   
 fetch_weather()
 
-function nearestStation(place){
+async function nearestStation(place){
   var shortestDistance = Infinity;
-  var shortestDistanceMarker = new google.maps.Marker({
-    map,
-    anchorPoint: new google.maps.Point(0, 0),
-  });  
-  markers.forEach(marker => {
-  var distance = findDirection(place, marker, false);
+  var shortestDistanceMarker;
+  
+  await Promise.all(markers.map(async marker => {
+    let distance = await findDirection(place, marker, false);
     if (distance < shortestDistance) {
       shortestDistance = distance;
       shortestDistanceMarker = marker;
     }
-  })
-
+  }));
+  findDirection(place, shortestDistanceMarker, true);
   return shortestDistanceMarker;
 }
 
-function findDirection(start, end, display){
+async function findDirection(start, end, display, mode="WALKING"){
+
+  directionService = new google.maps.DirectionsService();
+  directionRenderer = new google.maps.DirectionsRenderer({
+    map:map,
+    polylineOptions: {
+      strokeColor: "#000000",
+      strokeOpacity: 1,
+      strokeWeight: 4,
+      strokeDasharray: '10 10',
+    },
+  });
+
+  if (mode == "DRIVING"){
+    directionRenderer.setOptions({
+      polylineOptions: {
+        strokeColor: "#0034FF",
+        strokeOpacity: 1,
+        strokeWeight: 4,
+        strokeDasharray: '10 10',
+      },
+    })
+  }
 
   var distance;
-  var directionService = google.maps.DirectionService();
-  var directionRenderer = google.maps.DirectionRenderer(
-    {
-      map: map
-    }
-  );
-  var request = {
-    origin: start,
-    destination: end,
+  const request = {
+    origin: start.getPosition(),
+    destination: end.getPosition(),
     travelMode: 'WALKING'
   }
-  directionService.route(request, function (result, status) {
+  await directionService.route(request, function (result, status) {
     if (status == "OK") {
-      renderer.setDirections(result);
+      if(display)
+      {
+        directionRenderer.setDirections(result);
+      }
       distance = result.routes[0].legs[0].distance.value;
     } else {
       console.log('Directions request failed due to ' + status);
@@ -254,27 +245,28 @@ function findDirection(start, end, display){
   return distance;
 }
 
-function searchPlaces(){
-  const search_station = document.getElementById('search-station');
-  const autocomplete = new google.maps.places.Autocomplete(search_station);
-  const place_marker = new google.maps.Marker({
-    map,
-    anchorPoint: new google.maps.Point(0, 0),
-  });
-  autocomplete.addListener("place_changed", () => 
-  {
-    const place = autocomplete.getPlace();
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
-    }
-    place_marker.setPosition(place.geometry.location);
-    console.log(place_marker)
-    place_marker.setVisible(true);
-    place_marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-    return place_marker;
+async function searchPlaces(field){
+  return new Promise(async (resolve, reject) => {
+    const autocomplete = new google.maps.places.Autocomplete(field);
+    const place_marker = new google.maps.Marker({
+      map,
+      anchorPoint: new google.maps.Point(0, 0),
+    });
+    autocomplete.addListener("place_changed", async function () 
+    {
+      const place = autocomplete.getPlace();
+      if (place.geometry.viewport) {
+        map.fitBounds(place.geometry.viewport);
+      } else {
+        map.setCenter(place.geometry.location);
+        map.setZoom(17);
+      }
+      place_marker.setPosition(place.geometry.location);
+      place_marker.setVisible(true);
+      place_marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+      var near = await nearestStation(place_marker);
+      resolve(near);
+    });
   });
 }
 
@@ -293,15 +285,19 @@ window.onload = function(){
   const journeyPlannerInfo = document.getElementById('journey_planner_info');
   
   
-  search_station.addEventListener("input", ()=>
-  {
+  
+  
+  
+  search_station.addEventListener("click", async function() {
     journey_planner.classList.add('close');
     help_menu.classList.add('close');
-    place_marker = searchPlaces();
-    console.log(place_marker);
+    console.log(await searchPlaces(search_station));
+  })
+  
 
-  });
-
+  
+  
+  
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
     journey_planner_menu.classList.add('close');

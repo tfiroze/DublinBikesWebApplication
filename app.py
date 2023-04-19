@@ -84,10 +84,9 @@ def load_models():
 
     for station in station_data:
         station_number = station["number"]
-
-        with open(f"models\\model_arr\\model_arr{station_number}.pkl", "rb") as f:
+        with open(f"models/model_arr/model_arr{station_number}.pkl", "rb") as f:
             model_arr[station_number] = pickle.load(f)
-        with open(f"models\\model_dep\\model_dep{station_number}.pkl", "rb") as f:
+        with open(f"models/model_dep/model_dep{station_number}.pkl", "rb") as f:
             model_dep[station_number] = pickle.load(f)
 
     return model_arr, model_dep
