@@ -155,13 +155,24 @@ function addMarkers(station_data,availabilityData,history){
 
     // Check if availability data exists for the station
     if (availability) {
+      let atime = availability.time;
+
+      // Create a new Date object from atime
+      let dateObj = new Date(atime);
+
+      // Increase the hours by one
+      dateObj.setHours(dateObj.getHours() + 1);
+
+      // Update the atime variable with the new time
+      atime = dateObj.toUTCString();
+      //atime.setHours(currentDate.getHours() + 1);
       var contentString = `
         <div>
           <h3>${station.name}</h3>
           <p>Status: ${availability.status}</p>
           <p>Available Bikes: ${availability.available_bikes}</p>
           <p>Available Bike Stands: ${availability.available_bike_stands}</p>
-          <p>Last Update: ${availability.time}</p>
+          <p>Last Update: ${atime}</p>
         </div>
       `;
       addMarkerClickListener(marker, contentString, occupancy);
@@ -201,7 +212,7 @@ async function getStations() {
       disableDefaultUI: true,
     });
     
-    getStations()
+    //getStations()
     
     //console.log(markers);
     mc = new markerClusterer.MarkerClusterer({ map:map});
@@ -318,7 +329,7 @@ async function fetch_weather(){
   
 fetch_weather()
 
-window.onload = function(){
+window.onload = async function(){
   const sidebar = document.getElementById("sidebar");
   const toggle = document.getElementById("toggle");
   const journey_planner = document.getElementById("journey_planner");
@@ -328,7 +339,7 @@ window.onload = function(){
   const journey_planner_menu = document.getElementById('journey_planner_menu');
   const search_station = document.getElementById('search-station');
   const submitButton = document.querySelector("input[type='submit']");
-
+  getStations()
   
   
   search_station.addEventListener("input", searchStations);
