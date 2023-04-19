@@ -266,4 +266,3 @@ window.onload = function(){
   tempe.innerHTML = temp + "&#176C";
   weather_desc.innerHTML = weather_description
 }
-

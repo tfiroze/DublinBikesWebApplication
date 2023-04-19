@@ -376,9 +376,5 @@ window.onload = function(){
   let weather_desc = document.getElementById("weather_desc");
   tempe.innerHTML = temp + "&#176C";
   weather_desc.innerHTML = weather_description
-
-
-
-
 }
 
