@@ -25,13 +25,14 @@
     <!--Google API-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+    
 
     
     <!-- Title-->
     <title>Dublin Bikes</title>
 </head>
 <body>
-    <nav class="sidebar" id="sidebar">
+    <nav class="sidebar close" id="sidebar">
         <div class="header">
             <div class="img-container">
                 <img src="../images/dublin_bikes_logo.png" alt="Dublin Bikes Logo" class = "logo-image">
@@ -40,7 +41,7 @@
             <i class="fa-solid fa-angle-right expand-toggle" id="toggle"></i>
 
         </div>
-        <div class="menubar close" id = "menu_bar">
+        <div class="menubar" id = "menu_bar">
             <ul class="menus">
                 <li class="menu searchbar" >
                     <div class="menu-link">
@@ -54,7 +55,7 @@
                         <span class="menu-text">Journey Planner</span>
                     </p>
                 </li>
-                <li class="menu help" >
+                <li class="menu help" id="help_menu">
                     <p class="menu-link" >
                         <i class="fa-solid fa-circle-info icon" id="help"></i>
                         <span class="menu-text">How to Use</span>
@@ -63,7 +64,7 @@
             </ul>
         </div>
 
-        <div class="journey_planner_menu" id="journey_planner_menu">
+        <div class="journey_planner_menu close" id="journey_planner_menu">
             <div class="jp_head">
                 <h1>Journey Planner</h1>
             </div>
@@ -94,12 +95,12 @@
                     </div>
                </div>
                <div class="submit_journey">
-                    <input type="submit" value="Submit" class="submit_button" id="journey_planner_submit">
+                    <input type="submit" value="Submit" class="submit_button" id="submit_button">
                </div>
             </div>
         </div>
 
-        <div class="journey_planner_info" id="journey_planner_info">
+        <div class="journey_planner_info close" id="journey_planner_info">
             <div class="from">
                 <span class="heading">From</p>
                 <h1 class="station_name">Station Name</h1>
@@ -125,7 +126,7 @@
 
     <div class="map" id="map">
         <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR-bNYJuNHTwYIrtKeYVqEctXQVtJbx08&callback=initMap&v=weekly"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR-bNYJuNHTwYIrtKeYVqEctXQVtJbx08&callback=initMap&v=weekly&libraries=places"
             defer
         ></script>
     </div>
@@ -142,8 +143,8 @@
             <i class="fa-solid fa-cloud-rain" id = 'weather_icon'></i>
             <div class="weather-details">
                 <p class="dublin-weather">Dublin</p>
-                <span class="temp">31&#176C</span>
-                <span class="weather_desc">Light Rains</span>
+                <span class="temp", id="temp">31&#176C</span>
+                <span class="weather_desc", id="weather_desc">Light Rains</span>
             </div>
         </div>
 

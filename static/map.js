@@ -210,7 +210,8 @@ window.onload = function(){
   const menu_bar = document.getElementById('menu_bar');
   const journey_planner_menu = document.getElementById('journey_planner_menu');
   const search_station = document.getElementById('search-station');
-  const submitButton = document.querySelector("input[type='submit']");
+  const submitButton = document.getElementById("submit_button");
+  const journeyPlannerInfo = document.getElementById('journey_planner_info');
 
   
   
@@ -220,6 +221,7 @@ window.onload = function(){
     sidebar.classList.toggle("close");
     journey_planner_menu.classList.add('close');
     menu_bar.classList.remove('close');
+    journeyPlannerInfo.add('close');
 
   });
 
@@ -244,10 +246,15 @@ window.onload = function(){
   search.addEventListener("click", () => {
     sidebar.classList.toggle("close");
   });
-  submitButton.addEventListener("click", handleJourneySubmit);
+  submitButton.addEventListener("click", () => 
+  {
+    journeyPlannerInfo.remove('close')
+    handleJourneySubmit();
+  });
 
   let time = document.getElementById("time");
   let date = document.getElementById('date');
+  
   setInterval(()=> {
     let t = new Date();
     time.innerHTML = t.toLocaleTimeString();
@@ -258,9 +265,5 @@ window.onload = function(){
   let weather_desc = document.getElementById("weather_desc");
   tempe.innerHTML = temp + "&#176C";
   weather_desc.innerHTML = weather_description
-
-
-
-
 }
 
