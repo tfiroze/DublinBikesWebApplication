@@ -293,7 +293,6 @@ window.onload = function(){
   const journeyPlannerInfo = document.getElementById('journey_planner_info');
   
   
-  
   search_station.addEventListener("input", ()=>
   {
     journey_planner.classList.add('close');
