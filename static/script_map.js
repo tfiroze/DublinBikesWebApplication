@@ -155,6 +155,7 @@ function addMarkers(station_data,availabilityData,history){
 
     // Check if availability data exists for the station
     if (availability) {
+      
       var contentString = `
         <div>
           <h3>${station.name}</h3>
