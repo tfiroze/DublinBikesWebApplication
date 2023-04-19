@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--Google API-->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,43 +15,111 @@
 
     <!--Local Static Sheets-->
     <link rel="stylesheet" href="../static/style.css">
+
     <script src="../static/script.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+
+
+    <!--Google API-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
 
     
     <!-- Title-->
     <title>Dublin Bikes</title>
 </head>
 <body>
-    <nav class="sidebar close" id="sidebar">
+    <nav class="sidebar" id="sidebar">
         <div class="header">
             <div class="img-container">
                 <img src="../images/dublin_bikes_logo.png" alt="Dublin Bikes Logo" class = "logo-image">
             </div>
             <span class="header-text">Dublin Bikes</span>
             <i class="fa-solid fa-angle-right expand-toggle" id="toggle"></i>
+
         </div>
-        <div class="menubar">
+        <div class="menubar close" id = "menu_bar">
             <ul class="menus">
-                <li class="menu searchbar">
+                <li class="menu searchbar" >
                     <div class="menu-link">
-                        <i class="fa-solid fa-magnifying-glass icon"></i>
+                        <i class="fa-solid fa-magnifying-glass icon" id="search"></i>
                         <input type="search" name="stationSearchBox" id="search-station" placeholder="Search Stations..." class="menu-text">
                     </div>
                 </li>
-                <li class="menu">
-                    <a href="" class="menu-link">
-                        <i class="fa-solid fa-diamond-turn-right icon"></i>
+                <li class="menu journey_planner" id="journey_planner">
+                    <p href="" class="menu-link" >
+                        <i class="fa-solid fa-diamond-turn-right icon" id="journey_icon"></i>
                         <span class="menu-text">Journey Planner</span>
-                    </a>
+                    </p>
                 </li>
-                <li class="menu">
-                    <a href=""  class="menu-link">
-                        <i class="fa-solid fa-circle-info icon"></i>
+                <li class="menu help" >
+                    <p class="menu-link" >
+                        <i class="fa-solid fa-circle-info icon" id="help"></i>
                         <span class="menu-text">How to Use</span>
-                    </a>
+                    </p>
                 </li>
             </ul>
-            
+        </div>
+
+        <div class="journey_planner_menu" id="journey_planner_menu">
+            <div class="jp_head">
+                <h1>Journey Planner</h1>
+            </div>
+            <div class="journey_planner-form">
+                <div class="start_dest">
+                    <div class="menu searchbar journey_planner start" >
+                       <div class="menu-link">
+                           <p class="icon" id='icon_result_start'>From</p>
+                           <input type="search" name="stationSearchBox" id="search-station-start" placeholder="Search Stations..." class="menu-text start-search result">
+                       </div>
+                   </div>
+                   
+               </div>
+               <div class="end_dest">
+                   <div class="menu searchbar journey_planner end" >
+                       <div class="menu-link">
+                           <p class="icon" id='icon_result_end'>To</p>
+                           <input type="search" name="stationSearchBox" id="search-station-end" placeholder="Search Stations..." class="menu-text end-search result">
+                       </div>
+                   </div>
+               </div>
+               <div class="datetimejourney">
+                    <div class="menu searchbar journey_planner time" >
+                        <div class="menu-link">
+                            <p class="icon">Time</p>
+                            <input type="datetime-local" name="stationSearchBox" id="search-station-end" placeholder="Search Stations..." class="menu-text start-search">
+                        </div>
+                    </div>
+               </div>
+               <div class="submit_journey">
+                    <input type="submit" value="Submit" class="submit_button" id="journey_planner_submit">
+               </div>
+            </div>
+        </div>
+
+        <div class="journey_planner_info" id="journey_planner_info">
+            <div class="from">
+                <span class="heading">From</p>
+                <h1 class="station_name">Station Name</h1>
+                <i class="fa-solid fa-bicycle jpi_icon"></i>
+                <span class="bicycle_availability" id="end_dest_availability">25</span>
+            </div>
+            <div class="to">
+                <p class="heading">To</p>
+                <h1 class="station_name">Station Name</h1>
+                <i class="fa-solid fa-square-parking jpi_icon"></i>
+                <span class="bicycle_availability" id="start_dest_availability">25</span>
+            </div>
+            <div class="time">
+                <p class="heading">Time</p>
+                <i class="fa-solid fa-calendar jpi_icon"></i>
+                <span class="bicycle_availability" id="start_dest_availability">30/02/2000</span>
+                <i class="fa-solid fa-clock jpi_icon"></i>
+                <span class="bicycle_availability" id="start_dest_availability">6:00 PM</span>
+
+            </div>
         </div>
     </nav>
 
@@ -82,8 +150,7 @@
         <!-- <i class="fa-solid fa-angle-down expand-toggle-weather" id="toggle-weather"></i> -->
         
     </div>
-   
-    
+
     
 </body>
 </html>

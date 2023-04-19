@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--Google API-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <!--Google charts API-->
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+      google.charts.load('current', {packages: ['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+    </script>
+
+
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +24,16 @@
 
     <!--Local Static Sheets-->
     <link rel="stylesheet" href="../static/style.css">
+
     <script src="../static/script_map.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+
+
+    <!--Google API-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
 
     
     <!-- Title-->
@@ -29,28 +47,76 @@
             </div>
             <span class="header-text">Dublin Bikes</span>
             <i class="fa-solid fa-angle-right expand-toggle" id="toggle"></i>
+
         </div>
-        <div class="menubar">
+        <div class="menubar" id = "menu_bar">
             <ul class="menus">
-                <li class="menu searchbar">
+                <li class="menu searchbar" >
                     <div class="menu-link">
-                        <i class="fa-solid fa-magnifying-glass icon"></i>
+                        <i class="fa-solid fa-magnifying-glass icon" id="search"></i>
                         <input type="search" name="stationSearchBox" id="search-station" placeholder="Search Stations..." class="menu-text">
                     </div>
                 </li>
-                <li class="menu">
-                    <a href="" class="menu-link">
-                        <i class="fa-solid fa-diamond-turn-right icon"></i>
+                <li class="menu journey_planner" id="journey_planner">
+                    <p href="" class="menu-link" >
+                        <i class="fa-solid fa-diamond-turn-right icon" id="journey_icon"></i>
                         <span class="menu-text">Journey Planner</span>
-                    </a>
+                    </p>
                 </li>
-                <li class="menu">
-                    <a href=""  class="menu-link">
-                        <i class="fa-solid fa-circle-info icon"></i>
+                <li class="menu help" >
+                    <p class="menu-link" >
+                        <i class="fa-solid fa-circle-info icon" id="help"></i>
                         <span class="menu-text">How to Use</span>
-                    </a>
+                    </p>
                 </li>
             </ul>
+        </div>
+
+        <div class="journey_planner_menu close" id="journey_planner_menu">
+            <div class="jp_head">
+                <h1>Journey Planner</h1>
+            </div>
+            <form action="" class="journey_planner-form" id="journey_planner_form">
+                <div class="start_dest">
+                  <div class="menu searchbar journey_planner">
+                    <div class="menu-link">
+                      <p class="icon">From</p>
+                      <div class="dropdown-container">
+                      <select name="stationStart" id="search-station-start" class="menu-text start-search">
+                        <!-- Station options will be populated here -->
+                      </select>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="end_dest">
+                  <div class="menu searchbar journey_planner">
+                    <div class="menu-link">
+                      <p class="icon">To</p>
+                      <div class="dropdown-container">
+                      <select name="stationEnd" id="search-station-end" class="menu-text start-search">
+                        <!-- Station options will be populated here -->
+                      </select>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="datetimejourney">
+                    <div class="menu searchbar journey_planner time">
+                      <div class="menu-link">
+                        <p class="icon">Time</p>
+                        <input type="datetime-local" name="stationSearchBox" id="datetime-input" placeholder="Search Stations..." class="menu-text start-search">
+                      </div>
+                    </div>
+                  </div>
+                  
+                <div class="submit_journey">
+                  <input type="submit" value="Submit" class="submit_button">
+                </div>
+            </form>
+        </div>              
+
+        <div class="journey_planner_info" id="journey_planner_info">
             
         </div>
     </nav>
@@ -74,16 +140,19 @@
             <i class="fa-solid fa-cloud-rain" id = 'weather_icon'></i>
             <div class="weather-details">
                 <p class="dublin-weather">Dublin</p>
-                <span class="temp">31&#176C</span>
-                <span class="weather_desc">Light Rains</span>
+                <p id="temp"></p>
+                <p id="weather_desc"></p>
             </div>
         </div>
 
         <!-- <i class="fa-solid fa-angle-down expand-toggle-weather" id="toggle-weather"></i> -->
         
     </div>
-   
     
+    <div class="graph" id="OccGraph">
+        <p>Pwease exist</p>
+    </div>
+
     
 </body>
 </html>

@@ -20,8 +20,8 @@
     background-color: white;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
+    outline: solid 3px black;
     padding: 30px 20px;
-    transition: all 0.5s ease;
     white-space: nowrap;
 }
 
@@ -32,6 +32,7 @@
 .sidebar.close .menu-text {
     opacity: 0;
 }
+
 .header {
     width: 100%;
     height: 50px;
@@ -86,6 +87,7 @@ nav .header .header-text {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: all 0.5s ease;
 }
 
 
@@ -130,6 +132,8 @@ nav .header .header-text {
 .searchbar {
     background-color: grey;
     border-radius: 10px;
+    transition-delay: 0.5s;
+    transition: all ease 0.5s;
 }
 
 .searchbar input{
@@ -139,6 +143,12 @@ nav .header .header-text {
     border:none;
     background-color: grey;
 }
+
+.help {
+    transition-delay: 2s;
+    transition: all ease 0.5s;
+}
+
 
 #map {
     position: absolute;
@@ -153,6 +163,7 @@ nav .header .header-text {
     position: fixed;
     top: 10px;
     right: 10px;
+
     width: 375px;
     height: 90px;
     background-color: white;
@@ -190,9 +201,6 @@ nav .header .header-text {
     margin-left: 10px;
     font-size: 3.5rem;
 }
-.dublin-weather {
-
-}
 
 .datetime {
     position: relative;
@@ -213,4 +221,156 @@ nav .header .header-text {
     display: block;
     margin: 0 auto;
     font-size: 1.75rem;
+}
+
+
+.graphcontainer{
+width: 100%;
+text-align: center;
+}
+.jp_head {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.journey_planner_menu .icon {
+    min-width: 80px;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    display: flex;
+    font-size: 1rem;
+    margin-right: 10px;
+    height: 50px;
+    color: white;
+    background-color: black;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.journey_planner_menu .searchbar input{
+    background-color: white;
+}
+
+.journey_planner_menu .searchbar{
+    background-color: white;
+    margin-top: 0;
+    border: solid 2px black;
+}
+
+.journey_planner_menu .menu {
+    margin:15px 0;
+}
+
+.journey_planner_menu .menu-text {
+    font-size: 1rem;
+}
+
+.submit_journey {
+    width: 100%;
+    text-align: center;
+}
+.submit_button {
+    font-size: 1.2rem;
+    background-color: white;
+    border: solid 2.5px black;
+    border-radius: 50px;
+    width: 150px;
+    height: 50px;
+}
+
+.submit_button:hover {
+    background-color: black;
+    color: white;
+}
+
+.datetimejourney {
+    position: relative;
+    margin: 0 auto;
+}
+
+.menubar.close {
+    display: none;
+}
+
+.journey_planner_menu.close {
+    animation: forwards;
+    display: none;
+}
+
+.dropdown-container {
+    position: relative;
+    width: 100%;
+    max-height: 200px; /* Adjust the height as needed */
+    overflow-y: auto;
+    margin-bottom: 15px;
+  }
+  
+  .dropdown-container select {
+    width: 100%;
+    padding: 5px;
+    font-size: 1rem;
+    border: 2px solid black;
+    border-radius: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+  }
+  
+
+
+.availability_icon {
+    font-size: 2rem;
+}
+
+.from, .to, .time {
+    border: solid 3px black;
+    border-radius: 7px;
+    margin-top: 10px;
+}
+
+.journey_planner_info .heading {
+    background-color: black;
+    color: white;
+    height: 50px;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.station_name {
+    font-size: 1.1rem;
+    text-align: center;
+}
+.journey_planner_info{
+    
+    color: black;
+    height: 50px;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.graph {
+    width: 50%;
+    height: 50%;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+    bottom: -50%;
+    left: 25%;
+    transition: all 0.5s ease;
+    background-color: white;
+    border-top-right-radius: 50px;
+    border-top-left-radius: 50px;
+    border-top: 2px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+    padding-top: 20px;
+    padding-bottom: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
