@@ -3,7 +3,6 @@ var map;
 var mc;
 var directionService;
 var directionRenderer;
-var placeMarkers = [];
 const dublin = {lat: 53.3498, lng: -6.2603};
 function addMarkerClickListener(marker, contentString) {
   var infowindow = new google.maps.InfoWindow({
@@ -87,7 +86,7 @@ async function getStations() {
       center: dublin,
       disableDefaultUI: true,
     });
-
+    
     let zoom = 0;
     const maxZoom = 13.5;
     const zoomInterval = setInterval(() => {
@@ -97,7 +96,7 @@ async function getStations() {
       } else {
         clearInterval(zoomInterval);
       }
-    }, 50);
+    }, 20);
     
     getStations()
     
@@ -320,6 +319,11 @@ window.onload = function(){
     var place = await searchPlaces(search_station);
 
     nearest_station.addEventListener("click", async function() {
+      if (directionRenderer) {
+        directionRenderer.setMap(null);
+        directionRenderer = null;
+        initMap();
+      }
       nearest_station.classList.add('close');
       var nearest_station_marker = await nearestStation(place);
       nearest_station_info.classList.remove('close');
@@ -346,27 +350,29 @@ window.onload = function(){
       directionRenderer = null;
     }
     removeplaceMarkers();
-    console.log(placeMarkers);
   });
 
 
 
-  var start = false;
-  var end = false;
+  var start = [];
+  var end = [];
 
   startDest.addEventListener("click", async function() {
-    start = await searchPlaces(startDest, true);
+    start.push(await searchPlaces(startDest));
+    var nearest_station_marker = await nearestStation(start[0]);
+    findDirection(start, nearest_station_marker[0], true);
   })
 
   endDest.addEventListener("click", async function() {
-    end = await searchPlaces(endDest);
+    end.push(await searchPlaces(endDest));
+    var nearest_station_marker = await nearestStation(end[0]);
+    end.push(nearest_station_marker);
+    findDirection(end, nearest_station_marker[0], true);
   })
 
-  console.log(start, end);
   
 
-  
-  
+
   
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
