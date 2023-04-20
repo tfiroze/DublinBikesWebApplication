@@ -65,6 +65,14 @@
                 </li>
             </ul>
         </div>
+        <div class="searchbarInfo">
+            <div class="nearestStation">
+                <input type="button" value="Find Nearest Station" class="submit_button close" id="nearest_station">
+            </div>
+            <div class="back_button">
+                <input type="button" value="Back" class="submit_button close" id="back_button">
+            </div>
+        </div>
 
         <div class="journey_planner_menu close" id="journey_planner_menu">
             <div class="jp_head">
@@ -92,7 +100,7 @@
                     <div class="menu searchbar journey_planner time" >
                         <div class="menu-link">
                             <p class="icon">Time</p>
-                            <input type="datetime-local" name="stationSearchBox" id="search-station-end" placeholder="Search Stations..." class="menu-text start-search">
+                            <input type="datetime-local" name="stationSearchBox" id="datetime-input" placeholder="Search Stations..." class="menu-text start-search">
                         </div>
                     </div>
                </div>
@@ -104,23 +112,23 @@
 
         <div class="journey_planner_info close" id="journey_planner_info">
             <div class="from">
-                <span class="heading">From</p>
+                <p class="heading">From</p>
                 <h1 class="station_name">Station Name</h1>
                 <i class="fa-solid fa-bicycle jpi_icon"></i>
-                <span class="bicycle_availability" id="end_dest_availability">25</span>
+                <span class="bicycle_availability" id="start_dest_availability">25</span>
             </div>
             <div class="to">
                 <p class="heading">To</p>
                 <h1 class="station_name">Station Name</h1>
                 <i class="fa-solid fa-square-parking jpi_icon"></i>
-                <span class="bicycle_availability" id="start_dest_availability">25</span>
+                <span class="bicycle_availability" id="end_dest_availability">25</span>
             </div>
             <div class="time">
                 <p class="heading">Time</p>
                 <i class="fa-solid fa-calendar jpi_icon"></i>
-                <span class="bicycle_availability" id="start_dest_availability">30/02/2000</span>
+                <span class="bicycle_availability" id="">30/02/2000</span>
                 <i class="fa-solid fa-clock jpi_icon"></i>
-                <span class="bicycle_availability" id="start_dest_availability">6:00 PM</span>
+                <span class="bicycle_availability" id="">6:00 PM</span>
 
             </div>
         </div>

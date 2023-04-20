@@ -3,6 +3,7 @@ var map;
 var mc;
 var directionService;
 var directionRenderer;
+const dublin = {lat: 53.3498, lng: -6.2603};
 function addMarkerClickListener(marker, contentString) {
   var infowindow = new google.maps.InfoWindow({
     content: contentString,
@@ -79,7 +80,6 @@ async function getStations() {
 
   // Initialize and add the map
   function initMap() {
-    const dublin = {lat: 53.3498, lng: -6.2603};
     // The map, centered at Dublin
     map = new google.maps.Map(document.getElementById("map"), {
       zoom: 13,
@@ -118,11 +118,10 @@ function searchStations() {
   //console.log(mc.markers.length);
 }
 
-  async function handleJourneySubmit(event) {
-    event.preventDefault();
+  async function handleJourneySubmit(start, end) {
 
-    const startStation = document.getElementById("search-station-start").value;
-    const endStation = document.getElementById("search-station-end").value;
+    const startStation = 114;
+    const endStation = 91;
     const dateTime = document.getElementById("datetime-input").value;
 
     console.log("Start Station:", startStation);
@@ -164,15 +163,14 @@ function searchStations() {
     const endBikesData = await endBikesResponse.json();
     console.log("End Station Available Bike Stands:", endBikesData);
 
-    const output = `
-        <p>Start Station Available Bikes: ${startBikesData.prediction}</p>
-        <p>End Station Available Bike Stands: ${endBikesData.prediction}</p>
-        
-    `;
-
     // Update the innerHTML of the journey_planner_info div
-    const journeyPlannerInfo = document.querySelector("#journey_planner_info");
-    journeyPlannerInfo.innerHTML = output;
+    const startDestAvailability = document.querySelector("#start_dest_availability");
+    const endDestAvailability = document.querySelector("#end_dest_availability");
+
+    startDestAvailability.innerHTML = startBikesData.prediction;
+    endDestAvailability.innerHTML = endBikesData.prediction;
+
+    distance = await findDirection(start, end, true, 'BICYCLING')
 }
 var temp  
 var weather_description
@@ -191,7 +189,9 @@ async function nearestStation(place){
   var shortestDistanceMarker;
   
   await Promise.all(markers.map(async marker => {
-    let distance = await findDirection(place, marker, false);
+    var distance = google.maps.geometry.spherical.computeDistanceBetween(
+    new google.maps.LatLng(place.getPosition()), 
+    new google.maps.LatLng(marker.getPosition()))
     if (distance < shortestDistance) {
       shortestDistance = distance;
       shortestDistanceMarker = marker;
@@ -214,7 +214,7 @@ async function findDirection(start, end, display, mode="WALKING"){
     },
   });
 
-  if (mode == "DRIVING"){
+  if (mode == "BICYCLING"){
     directionRenderer.setOptions({
       polylineOptions: {
         strokeColor: "#0034FF",
@@ -222,6 +222,7 @@ async function findDirection(start, end, display, mode="WALKING"){
         strokeWeight: 4,
         strokeDasharray: '10 10',
       },
+      preserveViewport: true,
     })
   }
 
@@ -255,17 +256,17 @@ async function searchPlaces(field){
     autocomplete.addListener("place_changed", async function () 
     {
       const place = autocomplete.getPlace();
+      place_marker.setPosition(place.geometry.location);
+      place_marker.setVisible(true);
+      place_marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+      
       if (place.geometry.viewport) {
         map.fitBounds(place.geometry.viewport);
       } else {
         map.setCenter(place.geometry.location);
         map.setZoom(17);
       }
-      place_marker.setPosition(place.geometry.location);
-      place_marker.setVisible(true);
-      place_marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-      var near = await nearestStation(place_marker);
-      resolve(near);
+      resolve(place_marker);
     });
   });
 }
@@ -283,16 +284,53 @@ window.onload = function(){
   const search_station = document.getElementById('search-station');
   const submitButton = document.getElementById("submit_button");
   const journeyPlannerInfo = document.getElementById('journey_planner_info');
-  
-  
-  
+  const back_button = document.getElementById('back_button');
+  const nearest_station= document.getElementById('nearest_station');
+
+  const startDest = document.getElementById('search-station-start');
+  const endDest = document.getElementById('search-station-end');
+
   
   
   search_station.addEventListener("click", async function() {
+    nearest_station.classList.remove('close');
+    back_button.classList.remove('close');
     journey_planner.classList.add('close');
     help_menu.classList.add('close');
-    console.log(await searchPlaces(search_station));
+    var place = await searchPlaces(search_station);
+
+    nearest_station.addEventListener("click", async function() {
+      var nearest_station_marker = await nearestStation(place);
+      console.log(nearest_station_marker);
+    });
+  });
+
+  const map_transition_duration = 1500;
+
+  back_button.addEventListener("click", () => {
+    search_station.value = '';
+    nearest_station.classList.add('close');
+    back_button.classList.add('close');
+    journey_planner.classList.remove('close');
+    help_menu.classList.remove('close');
+    map.setZoom(13);
+    map.panTo(dublin, map_transition_duration);
+  });
+
+
+
+  var start = false;
+  var end = false;
+
+  startDest.addEventListener("click", async function() {
+    start = await searchPlaces(startDest);
   })
+
+  endDest.addEventListener("click", async function() {
+    end = await searchPlaces(endDest);
+  })
+
+  console.log(start, end);
   
 
   
@@ -327,10 +365,14 @@ window.onload = function(){
   search.addEventListener("click", () => {
     sidebar.classList.toggle("close");
   });
-  submitButton.addEventListener("click", () => 
+  submitButton.addEventListener("click",async() => 
   {
+    while (!start || !end) {
+      await new Promise(resolve => setTimeout(resolve, 100)); // Wait for 100ms before checking again
+    }
     journeyPlannerInfo.classList.remove('close')
-    handleJourneySubmit();
+    console.log(start,end);
+    handleJourneySubmit(start, end);
   });
 
   let time = document.getElementById("time");
