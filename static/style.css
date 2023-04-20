@@ -270,6 +270,7 @@ text-align: center;
 .submit_journey, .back_button, .nearestStation {
     width: 100%;
     text-align: center;
+    margin-top: 10px;
 }
 
 .submit_button.close {
@@ -338,19 +339,24 @@ text-align: center;
     font-size: 2rem;
 }
 
-.from, .to, .time {
+.from, .to, .time, .nearestStationInfo {
     border: solid 3px black;
     border-radius: 7px;
     margin-top: 10px;
 }
 
-.journey_planner_info .heading {
+.journey_planner_info .heading, .nearestStationInfo .heading {
     background-color: black;
     color: white;
     height: 50px;
     text-align: center;
     padding: 15px;
     font-size: 1.1rem;
+}
+
+
+.nearestStationInfo.close {
+    display: none;
 }
 
 .station_name {

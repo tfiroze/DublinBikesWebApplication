@@ -286,6 +286,7 @@ window.onload = function(){
   const journeyPlannerInfo = document.getElementById('journey_planner_info');
   const back_button = document.getElementById('back_button');
   const nearest_station= document.getElementById('nearest_station');
+  const nearest_station_info = document.querySelector('.nearestStationInfo');
 
   const startDest = document.getElementById('search-station-start');
   const endDest = document.getElementById('search-station-end');
@@ -300,8 +301,10 @@ window.onload = function(){
     var place = await searchPlaces(search_station);
 
     nearest_station.addEventListener("click", async function() {
+      nearest_station.classList.add('close');
       var nearest_station_marker = await nearestStation(place);
-      console.log(nearest_station_marker);
+      nearest_station_info.classList.remove('close');
+      document.querySelector("#nearestStationInfo_SN").textContent = nearest_station_marker.getTitle();
     });
   });
 
@@ -313,8 +316,13 @@ window.onload = function(){
     back_button.classList.add('close');
     journey_planner.classList.remove('close');
     help_menu.classList.remove('close');
+    nearest_station_info.classList.add('close');
     map.setZoom(13);
     map.panTo(dublin, map_transition_duration);
+    if (directionRenderer) {
+      directionRenderer.setMap(null);
+      directionRenderer = null;
+    }
   });
 
 
