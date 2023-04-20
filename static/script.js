@@ -319,11 +319,6 @@ window.onload = function(){
     var place = await searchPlaces(search_station);
 
     nearest_station.addEventListener("click", async function() {
-      if (directionRenderer) {
-        directionRenderer.setMap(null);
-        directionRenderer = null;
-        initMap();
-      }
       nearest_station.classList.add('close');
       var nearest_station_marker = await nearestStation(place);
       nearest_station_info.classList.remove('close');
