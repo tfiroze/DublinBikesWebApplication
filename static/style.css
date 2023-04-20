@@ -51,6 +51,9 @@ nav .header .logo-image {
 
 }
 
+.journey_planner-form.close {
+    display: none;
+}
 .img-container {
     display: flex;
     align-items: center;
@@ -248,6 +251,7 @@ text-align: center;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
+
 
 .journey_planner_menu .searchbar input{
     background-color: white;

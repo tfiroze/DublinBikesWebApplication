@@ -130,9 +130,10 @@ function searchStations() {
 }
 
   async function handleJourneySubmit(start, end) {
+    
 
-    const startStation = 114;
-    const endStation = 91;
+    const startStation = start[1][0].station_number;
+    const endStation = end[1][0].station_number;
     const dateTime = document.getElementById("datetime-input").value;
 
     console.log("Start Station:", startStation);
@@ -181,7 +182,22 @@ function searchStations() {
     startDestAvailability.innerHTML = startBikesData.prediction;
     endDestAvailability.innerHTML = endBikesData.prediction;
 
-    distance = await findDirection(start, end, true, 'BICYCLING')
+    direction_result = await findDirection(start[1][0], end[1][0], true, 'BICYCLING');
+
+    document.querySelector("#nearestStationInfo_SN_start").textContent = start[1][0].getTitle();
+    document.querySelector("#time_taken_searchbar_start").textContent = Math.round(start[1][1]*100)/100 + "mins";
+    document.querySelector("#distance_searchbar_start").textContent = Math.round(start[1][2]*100)/100 + "KMs";
+
+    document.querySelector("#nearestStationInfo_SN_end").textContent = end[1][0].getTitle();
+    document.querySelector("#time_taken_searchbar_end").textContent = Math.round(end[1][1]*100)/100 + "mins";
+    document.querySelector("#distance_searchbar_end").textContent = Math.round(end[1][2]*100)/100 + "KMs";
+
+    document.querySelector("#start_date").textContent = dateObj.getDate() + "-" + (dateObj.getMonth()+1) + "-" + dateObj.getFullYear();
+    document.querySelector("#start_time").textContent = dateObj.getHours() + ":" + dateObj.getMinutes();
+    var endDate = dateObj;
+    endDate.setMinutes(dateObj.getMinutes() + direction_result[1] + (start[1][1]*100)/100 + (end[1][1]*100)/100);
+    document.querySelector("#end_date").textContent = endDate.getDate() + "-" + (endDate.getMonth()+1) + "-" + endDate.getFullYear();
+    document.querySelector("#end_time").textContent = endDate.getHours() + ":" + endDate.getMinutes();
 }
 var temp  
 var weather_description
@@ -305,9 +321,14 @@ window.onload = function(){
   const back_button = document.getElementById('back_button');
   const nearest_station= document.getElementById('nearest_station');
   const nearest_station_info = document.querySelector('.nearestStationInfo');
+  const journey_planner_form = document.querySelector("#journey_planner-form");
+  const back_button_info_window = document.querySelector("#back_button_info_window");
+  const date_time_input = document.querySelector("#datetime-input");
 
   const startDest = document.getElementById('search-station-start');
   const endDest = document.getElementById('search-station-end');
+
+
 
   
   
@@ -355,14 +376,15 @@ window.onload = function(){
   startDest.addEventListener("click", async function() {
     start.push(await searchPlaces(startDest));
     var nearest_station_marker = await nearestStation(start[0]);
-    findDirection(start, nearest_station_marker[0], true);
+    start.push(nearest_station_marker);
+    findDirection(start[0], nearest_station_marker[0], true);
   })
 
   endDest.addEventListener("click", async function() {
     end.push(await searchPlaces(endDest));
     var nearest_station_marker = await nearestStation(end[0]);
     end.push(nearest_station_marker);
-    findDirection(end, nearest_station_marker[0], true);
+    findDirection(end[0], nearest_station_marker[0], true);
   })
 
   
@@ -410,8 +432,18 @@ window.onload = function(){
     }
     journeyPlannerInfo.classList.remove('close')
     console.log(start,end);
+    journey_planner_form.classList.add('close');
     handleJourneySubmit(start, end);
   });
+
+  back_button_info_window.addEventListener("click", () => {
+    journeyPlannerInfo.classList.add('close')
+    journey_planner_form.classList.remove('close');
+    startDest.value = '';
+    endDest.value = '';
+    date_time_input.value = '';
+    initMap();
+  })
 
   let time = document.getElementById("time");
   let date = document.getElementById('date');

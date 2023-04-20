@@ -84,7 +84,7 @@
             <div class="jp_head">
                 <h1>Journey Planner</h1>
             </div>
-            <div class="journey_planner-form">
+            <div class="journey_planner-form" id = 'journey_planner-form'>
                 <div class="start_dest">
                     <div class="menu searchbar journey_planner start" >
                        <div class="menu-link">
@@ -118,23 +118,36 @@
         <div class="journey_planner_info close" id="journey_planner_info">
             <div class="from">
                 <p class="heading">From</p>
-                <h1 class="station_name">Station Name</h1>
+                <h1 class="station_name">Nearest Station</h1>
+                <h1 class="station_name" id="nearestStationInfo_SN_start">Station Name</h1>
+                <h1 class="station_name" id="distance_searchbar_start">0 KMs</h1>
+                <h1 class="station_name" id="time_taken_searchbar_start"></h1>
+                <span class="bicycle_availability" id="start_dest_availability"></span>
                 <i class="fa-solid fa-bicycle jpi_icon"></i>
-                <span class="bicycle_availability" id="start_dest_availability">25</span>
             </div>
             <div class="to">
                 <p class="heading">To</p>
-                <h1 class="station_name">Station Name</h1>
-                <i class="fa-solid fa-square-parking jpi_icon"></i>
+                <h1 class="station_name">Nearest Station</h1>
+                <h1 class="station_name" id="nearestStationInfo_SN_end">Station Name</h1>
+                <h1 class="station_name" id="distance_searchbar_end">0 KMs</h1>
+                <h1 class="station_name" id="time_taken_searchbar_end"></h1>
                 <span class="bicycle_availability" id="end_dest_availability">25</span>
+                <i class="fa-solid fa-square-parking jpi_icon"></i>
             </div>
             <div class="time">
                 <p class="heading">Time</p>
                 <i class="fa-solid fa-calendar jpi_icon"></i>
-                <span class="bicycle_availability" id="">30/02/2000</span>
+                <h1 class="station_name">Start at</h1>
+                <span class="bicycle_availability" id="start_date">30/02/2000</span>
                 <i class="fa-solid fa-clock jpi_icon"></i>
-                <span class="bicycle_availability" id="">6:00 PM</span>
-
+                <span class="bicycle_availability" id="start_time">6:00 PM</span>
+                <h1 class="station_name">Approximate Arrival Time</h1>
+                <span class="bicycle_availability" id="end_date">30/02/2000</span>
+                <i class="fa-solid fa-clock jpi_icon"></i>
+                <span class="bicycle_availability" id="end_time">6:00 PM</span>
+            </div>
+            <div class="back_button">
+                <input type="button" value="Back" class="submit_button" id="back_button_info_window">
             </div>
         </div>
     </nav>
