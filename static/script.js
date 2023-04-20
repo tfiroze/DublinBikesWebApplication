@@ -3,6 +3,7 @@ var map;
 var mc;
 var directionService;
 var directionRenderer;
+var placeMarkers = [];
 const dublin = {lat: 53.3498, lng: -6.2603};
 function addMarkerClickListener(marker, contentString) {
   var infowindow = new google.maps.InfoWindow({
@@ -82,10 +83,21 @@ async function getStations() {
   function initMap() {
     // The map, centered at Dublin
     map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 13,
+      zoom: 0,
       center: dublin,
       disableDefaultUI: true,
     });
+
+    let zoom = 0;
+    const maxZoom = 13.5;
+    const zoomInterval = setInterval(() => {
+      if (zoom < maxZoom) {
+        zoom++;
+        map.setZoom(zoom);
+      } else {
+        clearInterval(zoomInterval);
+      }
+    }, 50);
     
     getStations()
     
@@ -197,8 +209,9 @@ async function nearestStation(place){
       shortestDistanceMarker = marker;
     }
   }));
-  findDirection(place, shortestDistanceMarker, true);
-  return shortestDistanceMarker;
+  var direction_result = await findDirection(place, shortestDistanceMarker, true);
+  console.log(direction_result)
+  return [shortestDistanceMarker, direction_result[0]/60, direction_result[1]/1000];
 }
 
 async function findDirection(start, end, display, mode="WALKING"){
@@ -227,6 +240,7 @@ async function findDirection(start, end, display, mode="WALKING"){
   }
 
   var distance;
+  var time_taken;
   const request = {
     origin: start.getPosition(),
     destination: end.getPosition(),
@@ -239,11 +253,16 @@ async function findDirection(start, end, display, mode="WALKING"){
         directionRenderer.setDirections(result);
       }
       distance = result.routes[0].legs[0].distance.value;
+      time_taken = result.routes[0].legs[0].duration.value;
     } else {
       console.log('Directions request failed due to ' + status);
     }
   });
-  return distance;
+  return [distance, time_taken];
+}
+
+function removeplaceMarkers(){
+  initMap();
 }
 
 async function searchPlaces(field){
@@ -304,7 +323,10 @@ window.onload = function(){
       nearest_station.classList.add('close');
       var nearest_station_marker = await nearestStation(place);
       nearest_station_info.classList.remove('close');
-      document.querySelector("#nearestStationInfo_SN").textContent = nearest_station_marker.getTitle();
+      document.querySelector("#nearestStationInfo_SN").textContent = nearest_station_marker[0].getTitle();
+      document.querySelector("#time_taken_searchbar").textContent = Math.round(nearest_station_marker[1]*100)/100 + "mins";
+      document.querySelector("#distance_searchbar").textContent = Math.round(nearest_station_marker[2]*100)/100 + "KMs";
+      placeMarkers.push(nearest_station_marker[0]);
     });
   });
 
@@ -323,6 +345,8 @@ window.onload = function(){
       directionRenderer.setMap(null);
       directionRenderer = null;
     }
+    removeplaceMarkers();
+    console.log(placeMarkers);
   });
 
 
@@ -331,7 +355,7 @@ window.onload = function(){
   var end = false;
 
   startDest.addEventListener("click", async function() {
-    start = await searchPlaces(startDest);
+    start = await searchPlaces(startDest, true);
   })
 
   endDest.addEventListener("click", async function() {
@@ -349,7 +373,12 @@ window.onload = function(){
     journey_planner_menu.classList.add('close');
     menu_bar.classList.remove('close');
     journeyPlannerInfo.classList.add('close');
-
+    search_station.value = '';
+    nearest_station.classList.add('close');
+    back_button.classList.add('close');
+    help_menu.classList.remove('close');
+    journey_planner.classList.remove('close');
+    nearest_station_info.classList.add('close');
   });
 
   journey_planner.addEventListener("click", () => 
