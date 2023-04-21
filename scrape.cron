@@ -1,0 +1,1 @@
+*/5 * * * * /home/ubuntu/miniconda3/envs/comp30830software/bin/python /home/ubuntu/softwareproject/scrapers/scrape.py
