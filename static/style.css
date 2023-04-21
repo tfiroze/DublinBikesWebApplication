@@ -163,9 +163,8 @@ nav .header .header-text {
     position: fixed;
     top: 10px;
     right: 10px;
-
     width: 375px;
-    height: 90px;
+    min-height: 90px;
     background-color: white;
     font-size: 1.3rem;
     border-radius: 2rem;
@@ -387,15 +386,10 @@ text-align: center;
     display: none;
 }
 
-.big-loader{
-    width: 50%;
-    height: 500px;
-    left: 25%;
-    position: absolute;
-    display: block;
-    border: solid;
-    margin: auto;
-    background-color: aliceblue;
+#big-loader{
+    top: 23em;
+    scale: 5;
+
 }
 
 .sk-fading-circle {

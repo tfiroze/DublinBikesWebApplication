@@ -362,8 +362,6 @@ async function fetch_weather(){
   
 
 window.onload = function(){
-  document.getElementById("big-loader").style.scale="5"
-  document.getElementById("big-loader").style.transform="translateY(120%)"
   const sidebar = document.getElementById("sidebar");
   const toggle = document.getElementById("toggle");
   const journey_planner = document.getElementById("journey_planner");
