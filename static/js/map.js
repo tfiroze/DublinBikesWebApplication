@@ -1,6 +1,8 @@
 var markers = [];
 var map;
 var mc;
+var directionService;
+var directionRenderer;
 function addMarkerClickListener(marker, contentString) {
   var infowindow = new google.maps.InfoWindow({
     content: contentString,
@@ -64,16 +66,16 @@ function addMarkers(station_data,availabilityData){
 
 async function getStations() {
     markers = [];
-    const response = await fetch("http://127.0.0.1:8000/stations");
+    const response = await fetch("http://127.0.0.1:5000/stations");
     data = await response.json()
     station_data = await data;
-    const availabilityResponse = await fetch("http://127.0.0.1:8000/availability");
+    const availabilityResponse = await fetch("http://127.0.0.1:5000/availability");
     availabilityData = await availabilityResponse.json();
+    document.getElementById("big-loader").style.display="none";
 
     // Pass the availabilityData to the addMarkers function
     //addMarkers(station_data, availabilityData);
     setInterval(addMarkers(station_data, availabilityData), 300000);
-    populateStationDropdowns(station_data); // Make sure to add this line
   }
 
   // Initialize and add the map
@@ -92,6 +94,7 @@ async function getStations() {
     mc = new markerClusterer.MarkerClusterer({ map:map});
     // console.log(mc);
     mc.markers = markers;
+
   }
 window.initMap = initMap;
 
@@ -116,23 +119,6 @@ function searchStations() {
   //console.log(mc.markers.length);
 }
 
-
-function populateStationDropdowns(station_data) {
-    const startDropdown = document.getElementById("search-station-start");
-    const endDropdown = document.getElementById("search-station-end");
-  
-    for (const station of station_data) {
-      const startOption = document.createElement("option");
-      startOption.value = station.number;
-      startOption.text = station.name;
-      startDropdown.add(startOption);
-  
-      const endOption = document.createElement("option");
-      endOption.value = station.number;
-      endOption.text = station.name;
-      endDropdown.add(endOption);
-    }
-  }
   async function handleJourneySubmit(event) {
     event.preventDefault();
 
@@ -159,7 +145,7 @@ function populateStationDropdowns(station_data) {
         date,
     };
 
-    const startBikesResponse = await fetch(`http://127.0.0.1:8000/predict_available_bikes/${startStation}`, {
+    const startBikesResponse = await fetch(`http://127.0.0.1:5000/predict_available_bikes/${startStation}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -169,7 +155,7 @@ function populateStationDropdowns(station_data) {
     const startBikesData = await startBikesResponse.json();
     console.log("Start Station Available Bikes:", startBikesData);
 
-    const endBikesResponse = await fetch(`http://127.0.0.1:8000/predict_available_bike_stands/${endStation}`, {
+    const endBikesResponse = await fetch(`http://127.0.0.1:5000/predict_available_bike_stands/${endStation}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -191,37 +177,171 @@ function populateStationDropdowns(station_data) {
 }
 var temp  
 var weather_description
+var code
+var weathicon
 async function fetch_weather(){
-  const res = await  fetch('http://127.0.0.1:8000/current_weather')
+  const res = await  fetch('http://127.0.0.1:5000/current_weather')
   data = await res.json()
   temp=data.temperature
   weather_description=data.weather_description
+  code=data.weather_code
+  if (code>=1 && code<=3){
+    weathicon="fa-solid fa-cloud"
+  }
+  else if (code>=12 && code<=23 || code>=51 && code<=67 || code>=80 && code<=82){
+    weathicon="fa-solid fa-cloud-rain"
+  }
+  else if (code==0){
+    weathicon="fa-regular fa-sun"
+  }
+  else if (code>=37 && code<=40){
+    weathicon="fa-solid fa-wind"
+  }
+  else if (code>=4 && code<=11 || code>=45 && code<=48){
+    weathicon="fa-solid fa-smog"
+  }
+  else if (code>=24 && code<=32 || code>=71 && code<=77 || code==85 || code==86){
+    weathicon="fa-regular fa-snowflake"
+  }
+  else if (code>=33 && code<=36 || code>=95 && code<=99){
+    weathicon="fa-solid fa-cloud-bolt"
+  }
+  else(
+    weathicon="fa-solid fa-cloud-sun-rain"
+  )
+  let tempe = document.getElementById("temp");
+  let weather_desc = document.getElementById("weather_desc");
+  let weather_icon = document.getElementById("weather_icon");
+  let dublin = document.getElementById("dublin-weather");
+  
+  document.getElementById("right-loader").style.display = "none";
+  document.getElementById("weather-right").style.margin = "0px";
+
+  tempe.innerHTML = temp + "&#176C";
+  dublin.innerHTML = "Dublin";
+  weather_desc.innerHTML = weather_description
+  weather_icon.className = weathicon
   
 }
   
-fetch_weather()
+
+async function nearestStation(place){
+  var shortestDistance = Infinity;
+  var shortestDistanceMarker;
+  
+  await Promise.all(markers.map(async marker => {
+    let distance = await findDirection(place, marker, false);
+    if (distance < shortestDistance) {
+      shortestDistance = distance;
+      shortestDistanceMarker = marker;
+    }
+  }));
+  findDirection(place, shortestDistanceMarker, true);
+  return shortestDistanceMarker;
+}
+
+async function findDirection(start, end, display, mode="WALKING"){
+
+  directionService = new google.maps.DirectionsService();
+  directionRenderer = new google.maps.DirectionsRenderer({
+    map:map,
+    polylineOptions: {
+      strokeColor: "#000000",
+      strokeOpacity: 1,
+      strokeWeight: 4,
+      strokeDasharray: '10 10',
+    },
+  });
+
+  if (mode == "DRIVING"){
+    directionRenderer.setOptions({
+      polylineOptions: {
+        strokeColor: "#0034FF",
+        strokeOpacity: 1,
+        strokeWeight: 4,
+        strokeDasharray: '10 10',
+      },
+    })
+  }
+
+  var distance;
+  const request = {
+    origin: start.getPosition(),
+    destination: end.getPosition(),
+    travelMode: 'WALKING'
+  }
+  await directionService.route(request, function (result, status) {
+    if (status == "OK") {
+      if(display)
+      {
+        directionRenderer.setDirections(result);
+      }
+      distance = result.routes[0].legs[0].distance.value;
+    } else {
+      console.log('Directions request failed due to ' + status);
+    }
+  });
+  return distance;
+}
+
+async function searchPlaces(field){
+  return new Promise(async (resolve, reject) => {
+    const autocomplete = new google.maps.places.Autocomplete(field);
+    const place_marker = new google.maps.Marker({
+      map,
+      anchorPoint: new google.maps.Point(0, 0),
+    });
+    autocomplete.addListener("place_changed", async function () 
+    {
+      const place = autocomplete.getPlace();
+      if (place.geometry.viewport) {
+        map.fitBounds(place.geometry.viewport);
+      } else {
+        map.setCenter(place.geometry.location);
+        map.setZoom(17);
+      }
+      place_marker.setPosition(place.geometry.location);
+      place_marker.setVisible(true);
+      place_marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+      var near = await nearestStation(place_marker);
+      resolve(near);
+    });
+  });
+}
 
 window.onload = function(){
-  const sidebar = document.getElementById("sidebar");
+    const sidebar = document.getElementById("sidebar");
   const toggle = document.getElementById("toggle");
   const journey_planner = document.getElementById("journey_planner");
   const help = document.getElementById('help');
+  const help_menu = document.getElementById('help_menu');
+
   const search = document.getElementById('search');
   const menu_bar = document.getElementById('menu_bar');
   const journey_planner_menu = document.getElementById('journey_planner_menu');
   const search_station = document.getElementById('search-station');
   const submitButton = document.getElementById("submit_button");
   const journeyPlannerInfo = document.getElementById('journey_planner_info');
+  
+  
+  
+  
+  
+  search_station.addEventListener("click", async function() {
+    journey_planner.classList.add('close');
+    help_menu.classList.add('close');
+    console.log(await searchPlaces(search_station));
+  })
+  
 
   
   
-  search_station.addEventListener("input", searchStations);
-
+  
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
     journey_planner_menu.classList.add('close');
     menu_bar.classList.remove('close');
-    journeyPlannerInfo.add('close');
+    journeyPlannerInfo.classList.add('close');
 
   });
 
@@ -248,21 +368,20 @@ window.onload = function(){
   });
   submitButton.addEventListener("click", () => 
   {
-    journeyPlannerInfo.remove('close')
+    journeyPlannerInfo.classList.remove('close')
     handleJourneySubmit();
   });
 
   let time = document.getElementById("time");
-  let date = document.getElementById('date');
+  let date = document.getElementById("date");
+
   
   setInterval(()=> {
     let t = new Date();
+    document.getElementById("left-loader").style.display = "none";
     time.innerHTML = t.toLocaleTimeString();
     date.innerHTML = t.toLocaleDateString();
   }, 1000)
   fetch_weather()
-  let tempe = document.getElementById("temp");
-  let weather_desc = document.getElementById("weather_desc");
-  tempe.innerHTML = temp + "&#176C";
-  weather_desc.innerHTML = weather_description
+
 }
