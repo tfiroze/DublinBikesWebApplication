@@ -82,7 +82,7 @@ function addMarkers(station_data,availabilityData,history){
       title: station.name,
       station_number: station.number,
       icon: {
-        url: "static/images/BlueMarker.png",
+        url: "static/images/PurpleMarker.png",
         scaledSize: new google.maps.Size(25, 40),
       },
     });
