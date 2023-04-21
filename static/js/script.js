@@ -78,7 +78,7 @@ function addMarkers(station_data,availabilityData,history){
       station_number: station.number,
       icon: {
         url: "static/images/BlueMarker.png",
-        scaledSize: new google.maps.Size(35, 35),
+        scaledSize: new google.maps.Size(35, 15),
       },
     });
 
@@ -339,7 +339,7 @@ var weather_description
 var code
 var weathicon
 async function fetch_weather(){
-  const res = await  fetch('http://127.0.0.1:5000/current_weather')
+  const res = await  fetch('http://34.242.180.5/current_weather')
   data = await res.json()
   temp=data.temperature
   weather_description=data.weather_description
