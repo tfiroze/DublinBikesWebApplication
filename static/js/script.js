@@ -597,9 +597,6 @@ window.onload = function(){
     }
   });
 
-  help.addEventListener("click", () => {
-    sidebar.classList.toggle("close");
-  });
 
   search.addEventListener("click", () => {
     sidebar.classList.toggle("close");
