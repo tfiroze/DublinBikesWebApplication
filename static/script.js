@@ -184,6 +184,19 @@ function searchStations() {
 
     direction_result = await findDirection(start[1][0], end[1][0], true, 'BICYCLING');
 
+    const bounds = new google.maps.LatLngBounds();
+
+    bounds.extend(start[1][0].getPosition());
+    bounds.extend(end[1][0].getPosition());
+    bounds.extend(start[0].getPosition());
+    bounds.extend(end[0].getPosition());
+
+    const padding = 10;
+    map.fitBounds(bounds, padding);
+
+    const zoomOutLevel = 0.5;
+    map.setZoom(map.getZoom() - zoomOutLevel);
+
     document.querySelector("#nearestStationInfo_SN_start").textContent = start[1][0].getTitle();
     document.querySelector("#time_taken_searchbar_start").textContent = Math.round(start[1][1]*100)/100 + "mins";
     document.querySelector("#distance_searchbar_start").textContent = Math.round(start[1][2]*100)/100 + "KMs";
@@ -323,6 +336,7 @@ window.onload = function(){
   const nearest_station_info = document.querySelector('.nearestStationInfo');
   const journey_planner_form = document.querySelector("#journey_planner-form");
   const back_button_info_window = document.querySelector("#back_button_info_window");
+  const back_button_journey_planner = document.querySelector("#back_button_journey_planner");
   const date_time_input = document.querySelector("#datetime-input");
 
   const startDest = document.getElementById('search-station-start');
@@ -350,7 +364,7 @@ window.onload = function(){
     });
   });
 
-  const map_transition_duration = 1500;
+  const map_transition_duration = 2000;
 
   back_button.addEventListener("click", () => {
     search_station.value = '';
@@ -365,7 +379,6 @@ window.onload = function(){
       directionRenderer.setMap(null);
       directionRenderer = null;
     }
-    removeplaceMarkers();
   });
 
 
@@ -445,6 +458,11 @@ window.onload = function(){
     initMap();
   })
 
+  back_button_journey_planner.addEventListener("click", () => {
+    menu_bar.classList.remove('close');
+    journey_planner_menu.classList.add('close');
+  });
+
   let time = document.getElementById("time");
   let date = document.getElementById('date');
   
@@ -457,6 +475,6 @@ window.onload = function(){
   let tempe = document.getElementById("temp");
   let weather_desc = document.getElementById("weather_desc");
   tempe.innerHTML = temp + "&#176C";
-  weather_desc.innerHTML = weather_description
-}
+  weather_desc.innerHTML = weather_description;
 
+}
