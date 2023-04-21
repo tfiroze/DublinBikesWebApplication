@@ -71,6 +71,7 @@ async function getStations() {
     station_data = await data;
     const availabilityResponse = await fetch("http://127.0.0.1:5000/availability");
     availabilityData = await availabilityResponse.json();
+    document.getElementById("big-loader").style.display="none";
 
     // Pass the availabilityData to the addMarkers function
     //addMarkers(station_data, availabilityData);
@@ -176,15 +177,53 @@ function searchStations() {
 }
 var temp  
 var weather_description
+var code
+var weathicon
 async function fetch_weather(){
   const res = await  fetch('http://127.0.0.1:5000/current_weather')
   data = await res.json()
   temp=data.temperature
   weather_description=data.weather_description
+  code=data.weather_code
+  if (code>=1 && code<=3){
+    weathicon="fa-solid fa-cloud"
+  }
+  else if (code>=12 && code<=23 || code>=51 && code<=67 || code>=80 && code<=82){
+    weathicon="fa-solid fa-cloud-rain"
+  }
+  else if (code==0){
+    weathicon="fa-regular fa-sun"
+  }
+  else if (code>=37 && code<=40){
+    weathicon="fa-solid fa-wind"
+  }
+  else if (code>=4 && code<=11 || code>=45 && code<=48){
+    weathicon="fa-solid fa-smog"
+  }
+  else if (code>=24 && code<=32 || code>=71 && code<=77 || code==85 || code==86){
+    weathicon="fa-regular fa-snowflake"
+  }
+  else if (code>=33 && code<=36 || code>=95 && code<=99){
+    weathicon="fa-solid fa-cloud-bolt"
+  }
+  else(
+    weathicon="fa-solid fa-cloud-sun-rain"
+  )
+  let tempe = document.getElementById("temp");
+  let weather_desc = document.getElementById("weather_desc");
+  let weather_icon = document.getElementById("weather_icon");
+  let dublin = document.getElementById("dublin-weather");
+  
+  document.getElementById("right-loader").style.display = "none";
+  document.getElementById("weather-right").style.margin = "0px";
+
+  tempe.innerHTML = temp + "&#176C";
+  dublin.innerHTML = "Dublin";
+  weather_desc.innerHTML = weather_description
+  weather_icon.className = weathicon
   
 }
   
-fetch_weather()
 
 async function nearestStation(place){
   var shortestDistance = Infinity;
@@ -271,6 +310,8 @@ async function searchPlaces(field){
 }
 
 window.onload = function(){
+  document.getElementById("big-loader").style.scale="5"
+  document.getElementById("big-loader").style.transform="translateY(120%)"
   const sidebar = document.getElementById("sidebar");
   const toggle = document.getElementById("toggle");
   const journey_planner = document.getElementById("journey_planner");
@@ -334,17 +375,15 @@ window.onload = function(){
   });
 
   let time = document.getElementById("time");
-  let date = document.getElementById('date');
+  let date = document.getElementById("date");
+
   
   setInterval(()=> {
     let t = new Date();
+    document.getElementById("left-loader").style.display = "none";
     time.innerHTML = t.toLocaleTimeString();
     date.innerHTML = t.toLocaleDateString();
   }, 1000)
   fetch_weather()
-  let tempe = document.getElementById("temp");
-  let weather_desc = document.getElementById("weather_desc");
-  tempe.innerHTML = temp + "&#176C";
-  weather_desc.innerHTML = weather_description
-}
 
+}

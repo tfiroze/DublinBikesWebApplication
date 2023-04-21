@@ -135,47 +135,71 @@ def predict_bike_stands(station_number):
 
 def decode_weather_code(weathercode):
     weather_code_map = {
-        0: "Clear sky",
-        1: "Partly cloudy",
+        0: "Clear Sky",
+        1: "Partly Cloudy",
         2: "Cloudy",
         3: "Overcast",
         4: "Fog",
         5: "Haze",
         6: "Smoke",
-        7: "Dust or sand, in suspension, visibility reduced",
-        8: "Widespread dust or sand, visibility reduced",
-        9: "Blowing dust or sand, visibility reduced",
+        7: "Dust or Sand, in suspension, visibility reduced",
+        8: "Widespread Dust or Sand, visibility reduced",
+        9: "Blowing Dust or Sand, visibility reduced",
         10: "Mist",
-        11: "Patches of shallow fog",
-        12: "Light drizzle",
+        11: "Patches of Shallow Fog",
+        12: "Light Drizzle",
         13: "Drizzle",
-        14: "Heavy drizzle",
-        15: "Light rain",
+        14: "Heavy Drizzle",
+        15: "Light Rain",
         16: "Rain",
-        17: "Heavy rain",
-        18: "Light freezing rain",
-        19: "Freezing rain",
-        20: "Heavy freezing rain",
-        21: "Light rain shower",
-        22: "Rain shower",
-        23: "Heavy rain shower",
-        24: "Light snow",
+        17: "Heavy Rain",
+        18: "Light Freezing Rain",
+        19: "Freezing Rain",
+        20: "Heavy Freezing Rain",
+        21: "Light Rain Shower",
+        22: "Rain Shower",
+        23: "Heavy Rain Shower",
+        24: "Light Snow",
         25: "Snow",
-        26: "Heavy snow",
-        27: "Light snow shower",
-        28: "Snow shower",
-        29: "Heavy snow shower",
-        30: "Light rain and snow",
-        31: "Rain and snow",
-        32: "Heavy rain and snow",
+        26: "Heavy Snow",
+        27: "Light Snow Shower",
+        28: "Snow Shower",
+        29: "Heavy Snow Shower",
+        30: "Light Rain and Snow",
+        31: "Rain and Snow",
+        32: "Heavy Rain and Snow",
         33: "Thunderstorm",
-        34: "Heavy thunderstorm",
-        35: "Thunderstorm with hail",
-        36: "Heavy thunderstorm with hail",
+        34: "Heavy Thunderstorm",
+        35: "Thunderstorm with Hail",
+        36: "Heavy Thunderstorm with Hail",
         37: "Squalls",
-        38: "Funnel cloud(s), tornado or waterspout",
-        39: "Tropical storm",
-        40: "Hurricane or typhoon",
+        38: "Funnel Cloud(s), Tornado or Waterspout",
+        39: "Tropical Storm",
+        40: "Hurricane or Typhoon",
+        45: "Fog",
+        48: "Rime Fog",
+        51: "Light Drizzle",
+        53: "Moderate Drizzle",
+        55: "Dense Drizzle",
+        56: "Light Freezing Drizzle",
+        57: "Dense Drizzle",
+        61: "Slight Rain",
+        63: "Moderate Rain",
+        65: "Heavy Rain",
+        66: "Light Freezing Rain",
+        67: "Heavy Freezing Rain",
+        71: "Slight Snow Fall",
+        73: "Moderate Snow Fall",
+        75: "Heavy Snow Fall",
+        77: "Snow Grains",
+        80: "Slight Rain Showers",
+        81: "Moderate Rain Showers",
+        82: "Violent Rain Showers",
+        85: "Slight Snow Showers",
+        86: "Heavy Snow Showers",
+        95: "Thunderstorm",
+        96: "Thunderstorm with Slight Hail",
+        99: "Thunderstorm with Heavy Hail"
     }
 
     return weather_code_map.get(weathercode, "Sunny")
@@ -186,7 +210,7 @@ def get_current_weather():
     date = datetime.now  # Replace this with the current date or the date you want to get the weather for
     temp, precipitation_sum, rain_sum, precipitation_probability_max, weathercode, windspeed, winddir = get_weather_data(date)
     decoded_weather_code = decode_weather_code(weathercode)
-    return jsonify({"temperature": temp, "weather_description": decoded_weather_code})
+    return jsonify({"temperature": temp, "weather_description": decoded_weather_code, "weather_code": weathercode})
 
 
 # # Define Flask route to get station data
@@ -202,7 +226,7 @@ def get_current_weather():
 #     return jsonify(results)
 
 @app.route('/history')
-def get_history2():
+def get_history():
     with conn2.cursor() as cursor:
         sql = "SELECT * FROM dublinbikes.availability WHERE time >= now() - interval 6 hour ORDER BY number"
         cursor.execute(sql)
