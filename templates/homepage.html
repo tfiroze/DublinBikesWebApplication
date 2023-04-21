@@ -9,7 +9,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;700&display=swap" rel="stylesheet">
-
+    <!--Google charts API-->
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+      google.charts.load('current', {packages: ['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+    </script>
     <!--FontAwesome for Icons-->
     <script src="https://kit.fontawesome.com/6d78c94562.js" crossorigin="anonymous"></script>
 
@@ -180,6 +185,9 @@
 
         <!-- <i class="fa-solid fa-angle-down expand-toggle-weather" id="toggle-weather"></i> -->
         
+    </div>
+    <div class="graph" id="OccGraph">
+        <p>Pwease exist</p>
     </div>
 
     

@@ -22,6 +22,7 @@ const dublin = {lat: 53.3498, lng: -6.2603};function addMarkerClickListener(mark
 }
 
 function drawChart(occupancy) {
+  console.log(occupancy)
   var occupancyTable = google.visualization.arrayToDataTable(occupancy);
 
   var options = {
