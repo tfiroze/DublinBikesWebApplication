@@ -2,7 +2,12 @@ var markers = [];
 var map;
 var mc;
 var directionService;
-var directionRenderer;
+var directionRenderer = {
+  search: null,
+  start: null,
+  end: null,
+  submit: null
+}
 const dublin = {lat: 53.3498, lng: -6.2603};function addMarkerClickListener(marker, contentString, occupancy) {
   var infowindow = new google.maps.InfoWindow({
     content: contentString,
