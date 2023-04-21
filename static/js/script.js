@@ -31,7 +31,7 @@ function addMarkers(station_data,availabilityData){
       title: station.name,
       station_number: station.number,
       icon: {
-        url: "../images/icons8-bike-parking-100.png",
+        url: "static/images/icons8-bike-parking-100.png",
         scaledSize: new google.maps.Size(35, 35),
       },
     });
