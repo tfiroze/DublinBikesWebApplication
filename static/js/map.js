@@ -64,10 +64,10 @@ function addMarkers(station_data,availabilityData){
 
 async function getStations() {
     markers = [];
-    const response = await fetch("http://127.0.0.1:5000/stations");
+    const response = await fetch("http://127.0.0.1:8000/stations");
     data = await response.json()
     station_data = await data;
-    const availabilityResponse = await fetch("http://127.0.0.1:5000/availability");
+    const availabilityResponse = await fetch("http://127.0.0.1:8000/availability");
     availabilityData = await availabilityResponse.json();
 
     // Pass the availabilityData to the addMarkers function
@@ -159,7 +159,7 @@ function populateStationDropdowns(station_data) {
         date,
     };
 
-    const startBikesResponse = await fetch(`http://127.0.0.1:5000/predict_available_bikes/${startStation}`, {
+    const startBikesResponse = await fetch(`http://127.0.0.1:8000/predict_available_bikes/${startStation}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -169,7 +169,7 @@ function populateStationDropdowns(station_data) {
     const startBikesData = await startBikesResponse.json();
     console.log("Start Station Available Bikes:", startBikesData);
 
-    const endBikesResponse = await fetch(`http://127.0.0.1:5000/predict_available_bike_stands/${endStation}`, {
+    const endBikesResponse = await fetch(`http://127.0.0.1:8000/predict_available_bike_stands/${endStation}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -192,7 +192,7 @@ function populateStationDropdowns(station_data) {
 var temp  
 var weather_description
 async function fetch_weather(){
-  const res = await  fetch('http://127.0.0.1:5000/current_weather')
+  const res = await  fetch('http://127.0.0.1:8000/current_weather')
   data = await res.json()
   temp=data.temperature
   weather_description=data.weather_description
