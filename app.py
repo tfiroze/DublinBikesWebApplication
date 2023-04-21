@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import pymysql.cursors
 from flask_cors import CORS
 import json
@@ -216,7 +216,9 @@ def get_history2():
                 stations[number] = [r]
     return jsonify(stations)
 
-
+@app.route('/')
+def parent():
+    return render_template('homepage.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
