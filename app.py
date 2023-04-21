@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import pymysql.cursors
 from flask_cors import CORS
 import json
@@ -7,7 +7,10 @@ from scrapers import scrape_weather
 from datetime import datetime
 
 global station_data
-app = Flask(__name__)
+app = Flask (__name__,
+            static_url_path='', 
+            static_folder='./static',
+            template_folder='./templates')
 CORS(app)
 # Configure database connection
 conn = pymysql.connect(
@@ -92,10 +95,9 @@ def load_models():
 
     for station in station_data:
         station_number = station["number"]
-
-        with open(f"models\\model_arr\\model_arr{station_number}.pkl", "rb") as f:
+        with open(f"models/model_arr/model_arr{station_number}.pkl", "rb") as f:
             model_arr[station_number] = pickle.load(f)
-        with open(f"models\\model_dep\\model_dep{station_number}.pkl", "rb") as f:
+        with open(f"models/model_dep/model_dep{station_number}.pkl", "rb") as f:
             model_dep[station_number] = pickle.load(f)
 
     return model_arr, model_dep
@@ -225,7 +227,9 @@ def get_history2():
                 stations[number] = [r]
     return jsonify(stations)
 
-
+@app.route('/')
+def parent():
+    return render_template('homepage.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

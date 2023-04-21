@@ -14,9 +14,11 @@
     <script src="https://kit.fontawesome.com/6d78c94562.js" crossorigin="anonymous"></script>
 
     <!--Local Static Sheets-->
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='google_maps.js') }}"></script>
 
-    <script src="../static/script.js"></script>
+
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
@@ -25,13 +27,14 @@
     <!--Google API-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+    
 
     
     <!-- Title-->
     <title>Dublin Bikes</title>
 </head>
 <body>
-    <nav class="sidebar" id="sidebar">
+    <nav class="sidebar close" id="sidebar">
         <div class="header">
             <div class="img-container">
                 <img src="../images/dublin_bikes_logo.png" alt="Dublin Bikes Logo" class = "logo-image">
@@ -40,7 +43,7 @@
             <i class="fa-solid fa-angle-right expand-toggle" id="toggle"></i>
 
         </div>
-        <div class="menubar close" id = "menu_bar">
+        <div class="menubar" id = "menu_bar">
             <ul class="menus">
                 <li class="menu searchbar" >
                     <div class="menu-link">
@@ -54,7 +57,7 @@
                         <span class="menu-text">Journey Planner</span>
                     </p>
                 </li>
-                <li class="menu help" >
+                <li class="menu help" id="help_menu">
                     <p class="menu-link" >
                         <i class="fa-solid fa-circle-info icon" id="help"></i>
                         <span class="menu-text">How to Use</span>
@@ -62,12 +65,26 @@
                 </li>
             </ul>
         </div>
+        <div class="searchbarInfo">
+            <div class="nearestStation">
+                <input type="button" value="Find Nearest Station" class="submit_button close" id="nearest_station">
+            </div>
+            <div class="nearestStationInfo close">
+                <p class="heading">Nearest Station by Walk</p>
+                <h1 class="station_name" id="nearestStationInfo_SN">Station Name</h1>
+                <h1 class="station_name" id="distance_searchbar">0 KMs</h1>
+                <h1 class="station_name" id="time_taken_searchbar">Station Name</h1>
+            </div>
+            <div class="back_button">
+                <input type="button" value="Back" class="submit_button close" id="back_button">
+            </div>
+        </div>
 
-        <div class="journey_planner_menu" id="journey_planner_menu">
+        <div class="journey_planner_menu close" id="journey_planner_menu">
             <div class="jp_head">
                 <h1>Journey Planner</h1>
             </div>
-            <div class="journey_planner-form">
+            <div class="journey_planner-form" id = 'journey_planner-form'>
                 <div class="start_dest">
                     <div class="menu searchbar journey_planner start" >
                        <div class="menu-link">
@@ -76,7 +93,6 @@
                        </div>
                    </div>
                    
-               </div>
                <div class="end_dest">
                    <div class="menu searchbar journey_planner end" >
                        <div class="menu-link">
@@ -89,43 +105,56 @@
                     <div class="menu searchbar journey_planner time" >
                         <div class="menu-link">
                             <p class="icon">Time</p>
-                            <input type="datetime-local" name="stationSearchBox" id="search-station-end" placeholder="Search Stations..." class="menu-text start-search">
+                            <input type="datetime-local" name="stationSearchBox" id="datetime-input" placeholder="Search Stations..." class="menu-text start-search">
                         </div>
                     </div>
                </div>
                <div class="submit_journey">
-                    <input type="submit" value="Submit" class="submit_button" id="journey_planner_submit">
+                    <input type="submit" value="Submit" class="submit_button" id="submit_button">
                </div>
             </div>
         </div>
 
-        <div class="journey_planner_info" id="journey_planner_info">
+        <div class="journey_planner_info close" id="journey_planner_info">
             <div class="from">
-                <span class="heading">From</p>
-                <h1 class="station_name">Station Name</h1>
+                <p class="heading">From</p>
+                <h1 class="station_name">Nearest Station</h1>
+                <h1 class="station_name" id="nearestStationInfo_SN_start">Station Name</h1>
+                <h1 class="station_name" id="distance_searchbar_start">0 KMs</h1>
+                <h1 class="station_name" id="time_taken_searchbar_start"></h1>
+                <span class="bicycle_availability" id="start_dest_availability"></span>
                 <i class="fa-solid fa-bicycle jpi_icon"></i>
-                <span class="bicycle_availability" id="end_dest_availability">25</span>
             </div>
             <div class="to">
                 <p class="heading">To</p>
-                <h1 class="station_name">Station Name</h1>
+                <h1 class="station_name">Nearest Station</h1>
+                <h1 class="station_name" id="nearestStationInfo_SN_end">Station Name</h1>
+                <h1 class="station_name" id="distance_searchbar_end">0 KMs</h1>
+                <h1 class="station_name" id="time_taken_searchbar_end"></h1>
+                <span class="bicycle_availability" id="end_dest_availability">25</span>
                 <i class="fa-solid fa-square-parking jpi_icon"></i>
-                <span class="bicycle_availability" id="start_dest_availability">25</span>
             </div>
             <div class="time">
                 <p class="heading">Time</p>
                 <i class="fa-solid fa-calendar jpi_icon"></i>
-                <span class="bicycle_availability" id="start_dest_availability">30/02/2000</span>
+                <h1 class="station_name">Start at</h1>
+                <span class="bicycle_availability" id="start_date">30/02/2000</span>
                 <i class="fa-solid fa-clock jpi_icon"></i>
-                <span class="bicycle_availability" id="start_dest_availability">6:00 PM</span>
-
+                <span class="bicycle_availability" id="start_time">6:00 PM</span>
+                <h1 class="station_name">Approximate Arrival Time</h1>
+                <span class="bicycle_availability" id="end_date">30/02/2000</span>
+                <i class="fa-solid fa-clock jpi_icon"></i>
+                <span class="bicycle_availability" id="end_time">6:00 PM</span>
+            </div>
+            <div class="back_button">
+                <input type="button" value="Back" class="submit_button" id="back_button_info_window">
             </div>
         </div>
     </nav>
 
     <div class="map" id="map">
         <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR-bNYJuNHTwYIrtKeYVqEctXQVtJbx08&callback=initMap&v=weekly"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR-bNYJuNHTwYIrtKeYVqEctXQVtJbx08&callback=initMap&v=weekly&libraries=places,geometry"
             defer
         ></script>
     </div>
@@ -142,8 +171,8 @@
             <i class="fa-solid fa-cloud-rain" id = 'weather_icon'></i>
             <div class="weather-details">
                 <p class="dublin-weather">Dublin</p>
-                <span class="temp">31&#176C</span>
-                <span class="weather_desc">Light Rains</span>
+                <span class="temp", id="temp">31&#176C</span>
+                <span class="weather_desc", id="weather_desc">Light Rains</span>
             </div>
         </div>
 

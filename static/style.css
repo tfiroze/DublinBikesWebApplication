@@ -51,6 +51,9 @@ nav .header .logo-image {
 
 }
 
+.journey_planner-form.close {
+    display: none;
+}
 .img-container {
     display: flex;
     align-items: center;
@@ -249,6 +252,7 @@ text-align: center;
     border-bottom-left-radius: 10px;
 }
 
+
 .journey_planner_menu .searchbar input{
     background-color: white;
 }
@@ -267,10 +271,16 @@ text-align: center;
     font-size: 1rem;
 }
 
-.submit_journey {
+.submit_journey, .back_button, .nearestStation {
     width: 100%;
     text-align: center;
+    margin-top: 10px;
 }
+
+.submit_button.close {
+    display: none;
+}
+
 .submit_button {
     font-size: 1.2rem;
     background-color: white;
@@ -278,6 +288,14 @@ text-align: center;
     border-radius: 50px;
     width: 150px;
     height: 50px;
+}
+
+.nearestStation .submit_button{
+    width: 300px;
+}
+
+.nearestStation .submit_button, .back_button.submit_button {
+    margin: 15px;
 }
 
 .submit_button:hover {
@@ -325,19 +343,24 @@ text-align: center;
     font-size: 2rem;
 }
 
-.from, .to, .time {
+.from, .to, .time, .nearestStationInfo {
     border: solid 3px black;
     border-radius: 7px;
     margin-top: 10px;
 }
 
-.journey_planner_info .heading {
+.journey_planner_info .heading, .nearestStationInfo .heading {
     background-color: black;
     color: white;
     height: 50px;
     text-align: center;
     padding: 15px;
     font-size: 1.1rem;
+}
+
+
+.nearestStationInfo.close {
+    display: none;
 }
 
 .station_name {
@@ -373,4 +396,12 @@ text-align: center;
     padding-bottom: 0px;
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.journey_planner_info.close {
+    display: none;
+}
+
+.journey_planner.close, .help.close {
+    display: none;
 }

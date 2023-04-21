@@ -125,7 +125,9 @@ function addMarkers(station_data,availabilityData,history){
       }
 
       avgbike/=hourstat[key].length
+      avgbike=parseInt(avgbike)
       avgstand/=hourstat[key].length
+      avgstand=parseInt(avgstand)
       var timestr
       if (key>12){
         key=key-12
@@ -376,9 +378,5 @@ window.onload = function(){
   let weather_desc = document.getElementById("weather_desc");
   tempe.innerHTML = temp + "&#176C";
   weather_desc.innerHTML = weather_description
-
-
-
-
 }
 
