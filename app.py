@@ -240,7 +240,6 @@ def get_history():
             else:
                 stations[number] = [r]
     return jsonify(stations)
-get_history()
 @app.route('/')
 def parent():
     return render_template('homepage.html')
