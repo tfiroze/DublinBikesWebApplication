@@ -335,7 +335,7 @@ function searchStations() {
     document.querySelector("#start_date").textContent = dateObj.getDate() + "-" + (dateObj.getMonth()+1) + "-" + dateObj.getFullYear();
     document.querySelector("#start_time").textContent = dateObj.getHours() + ":" + dateObj.getMinutes();
     var endDate = dateObj;
-    endDate.setMinutes(dateObj.getMinutes() + direction_result[1] + (start[1][1]*100)/100 + (end[1][1]*100)/100);
+    endDate.setMinutes(dateObj.getMinutes() + Math.round(direction_result[1]/60*100)/100 + (start[1][1]*100)/100 + (end[1][1]*100)/100);
     document.querySelector("#end_date").textContent = endDate.getDate() + "-" + (endDate.getMonth()+1) + "-" + endDate.getFullYear();
     document.querySelector("#end_time").textContent = endDate.getHours() + ":" + endDate.getMinutes();
 }
@@ -364,12 +364,20 @@ async function nearestStation(place, dR){
       shortestDistanceMarker = marker;
     }
   }));
+  console.log(dR);
   var direction_result = await findDirection(place, shortestDistanceMarker, true, dR);
   console.log(direction_result)
   return [shortestDistanceMarker, direction_result[0]/60, direction_result[1]/1000];
 }
 
 async function findDirection(start, end, display, dR, mode="WALKING"){
+
+  for(let dR1 in directionRenderers) {
+    if (directionRenderers[dR1] != null){
+      directionRenderers[dR1].setDirections(null);
+      directionRenderers[dR1] = null;
+    }
+  }
 
   directionService = new google.maps.DirectionsService();
   var directionRenderer = new google.maps.DirectionsRenderer({
@@ -405,8 +413,14 @@ async function findDirection(start, end, display, dR, mode="WALKING"){
     if (status == "OK") {
       if(display)
       {
-        directionRenderer.setDirections(result);
-        directionRenderers[dR] = directionRenderer;
+        if(directionRenderers[dR] != null && typeof directionRenderers[dR] === 'object') {
+          console.log(directionRenderers[dR]);
+          directionRenderers[dR].setDirections(result);
+        }
+        else{
+          directionRenderer.setDirections(result);
+          directionRenderers[dR] = directionRenderer;
+        }
       }
       distance = result.routes[0].legs[0].distance.value;
       time_taken = result.routes[0].legs[0].duration.value;
@@ -513,16 +527,14 @@ window.onload = function(){
   startDest.addEventListener("click", async function() {
 
     start.push(await searchPlaces(startDest));
-    var nearest_station_marker = await nearestStation(start[0], "start");
+    var nearest_station_marker = await nearestStation(start[0], 'start');
     start.push(nearest_station_marker);
-    findDirection(start[0], nearest_station_marker[0], true, "start");
   })
 
   endDest.addEventListener("click", async function() {
     end.push(await searchPlaces(endDest));
     var nearest_station_marker = await nearestStation(end[0], "end");
     end.push(nearest_station_marker);
-    findDirection(end[0], nearest_station_marker[0], true, "end");
   })
 
   toggle.addEventListener("click", () => {
@@ -586,6 +598,8 @@ window.onload = function(){
   back_button_journey_planner.addEventListener("click", () => {
     menu_bar.classList.remove('close');
     journey_planner_menu.classList.add('close');
+    
+    
   });
 
   let time = document.getElementById("time");
