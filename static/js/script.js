@@ -78,7 +78,7 @@ function addMarkers(station_data,availabilityData,history){
       station_number: station.number,
       icon: {
         url: "static/images/BlueMarker.png",
-        scaledSize: new google.maps.Size(55, 55),
+        scaledSize: new google.maps.Size(35, 35),
       },
     });
 
@@ -638,7 +638,7 @@ window.onload = function(){
   
   setInterval(()=> {
     let t = new Date();
-    //document.getElementById("left-loader").style.display = "none";
+    document.getElementById("left-loader").style.display = "none";
     time.innerHTML = t.toLocaleTimeString();
     date.innerHTML = t.toLocaleDateString();
   }, 1000)
