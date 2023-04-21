@@ -192,7 +192,7 @@ async function getStations() {
     // Pass the availabilityData to the addMarkers function
     //addMarkers(station_data, availabilityData);
     addMarkers(station_data, availabilityData,historydata);
-    document.getElementById("right-loader").style.display = "none";
+    document.getElementById("big-loader").style.display = "none";
   }
 
   // Initialize and add the map
@@ -383,7 +383,7 @@ async function fetch_weather(){
   
 }
  
-//fetch_weather()
+fetch_weather()
 
 async function nearestStation(place){
   var shortestDistance = Infinity;
@@ -642,6 +642,6 @@ window.onload = function(){
     time.innerHTML = t.toLocaleTimeString();
     date.innerHTML = t.toLocaleDateString();
   }, 1000)
-  fetch_weather()
+  //fetch_weather()
 
 }
