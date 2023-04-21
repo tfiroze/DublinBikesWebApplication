@@ -2,7 +2,7 @@ var markers = [];
 var map;
 var mc;
 var directionService;
-var directionRenderer = {
+var directionRenderers = {
   search: null,
   start: null,
   end: null,
@@ -309,7 +309,7 @@ function searchStations() {
     startDestAvailability.innerHTML = startBikesData.prediction;
     endDestAvailability.innerHTML = endBikesData.prediction;
 
-    direction_result = await findDirection(start[1][0], end[1][0], true, 'BICYCLING');
+    direction_result = await findDirection(start[1][0], end[1][0], true, "submit", 'BICYCLING');
 
     const bounds = new google.maps.LatLngBounds();
 
@@ -351,7 +351,7 @@ async function fetch_weather(){
   
 fetch_weather()
 
-async function nearestStation(place){
+async function nearestStation(place, dR){
   var shortestDistance = Infinity;
   var shortestDistanceMarker;
   
@@ -364,15 +364,15 @@ async function nearestStation(place){
       shortestDistanceMarker = marker;
     }
   }));
-  var direction_result = await findDirection(place, shortestDistanceMarker, true);
+  var direction_result = await findDirection(place, shortestDistanceMarker, true, dR);
   console.log(direction_result)
   return [shortestDistanceMarker, direction_result[0]/60, direction_result[1]/1000];
 }
 
-async function findDirection(start, end, display, mode="WALKING"){
+async function findDirection(start, end, display, dR, mode="WALKING"){
 
   directionService = new google.maps.DirectionsService();
-  directionRenderer = new google.maps.DirectionsRenderer({
+  var directionRenderer = new google.maps.DirectionsRenderer({
     map:map,
     polylineOptions: {
       strokeColor: "#000000",
@@ -406,6 +406,7 @@ async function findDirection(start, end, display, mode="WALKING"){
       if(display)
       {
         directionRenderer.setDirections(result);
+        directionRenderers[dR] = directionRenderer;
       }
       distance = result.routes[0].legs[0].distance.value;
       time_taken = result.routes[0].legs[0].duration.value;
@@ -483,7 +484,7 @@ window.onload = function(){
 
     nearest_station.addEventListener("click", async function() {
       nearest_station.classList.add('close');
-      var nearest_station_marker = await nearestStation(place);
+      var nearest_station_marker = await nearestStation(place, "search");
       nearest_station_info.classList.remove('close');
       document.querySelector("#nearestStationInfo_SN").textContent = nearest_station_marker[0].getTitle();
       document.querySelector("#time_taken_searchbar").textContent = Math.round(nearest_station_marker[1]*100)/100 + "mins";
@@ -501,12 +502,7 @@ window.onload = function(){
     journey_planner.classList.remove('close');
     help_menu.classList.remove('close');
     nearest_station_info.classList.add('close');
-    map.setZoom(13);
-    map.panTo(dublin, map_transition_duration);
-    if (directionRenderer) {
-      directionRenderer.setMap(null);
-      directionRenderer = null;
-    }
+    initMap();
   });
 
 
@@ -515,27 +511,20 @@ window.onload = function(){
   var end = [];
 
   startDest.addEventListener("click", async function() {
-    if (directionRenderer) {
-      directionRenderer.setMap(null);
-      directionRenderer = null;
-    }
+
     start.push(await searchPlaces(startDest));
-    var nearest_station_marker = await nearestStation(start[0]);
+    var nearest_station_marker = await nearestStation(start[0], "start");
     start.push(nearest_station_marker);
-    findDirection(start[0], nearest_station_marker[0], true);
+    findDirection(start[0], nearest_station_marker[0], true, "start");
   })
 
   endDest.addEventListener("click", async function() {
     end.push(await searchPlaces(endDest));
-    var nearest_station_marker = await nearestStation(end[0]);
+    var nearest_station_marker = await nearestStation(end[0], "end");
     end.push(nearest_station_marker);
-    findDirection(end[0], nearest_station_marker[0], true);
+    findDirection(end[0], nearest_station_marker[0], true, "end");
   })
 
-  
-
-
-  
   toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
     journey_planner_menu.classList.add('close');
