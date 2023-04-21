@@ -638,7 +638,7 @@ window.onload = function(){
   
   setInterval(()=> {
     let t = new Date();
-    document.getElementById("left-loader").style.display = "none";
+    //document.getElementById("left-loader").style.display = "none";
     time.innerHTML = t.toLocaleTimeString();
     date.innerHTML = t.toLocaleDateString();
   }, 1000)
