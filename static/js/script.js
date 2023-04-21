@@ -190,7 +190,7 @@ async function getStations() {
     station_data = await data;
     const availabilityResponse = await fetch("http://34.242.180.5/availability");
     availabilityData = await availabilityResponse.json();
-    const history = await fetch("http://127.0.0.1:5000/history");
+    const history = await fetch("http://34.242.180.5/history");
     historydata = await history.json();
     console.log(station_data);
     // populateStationDropdowns(station_data);
