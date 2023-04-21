@@ -63,8 +63,7 @@
                 </li>
                 <li class="menu help" id="help_menu">
                     <p class="menu-link" >
-                        <i class="fa-solid fa-circle-info icon" id="help"></i>
-                        <span class="menu-text">How to Use</span>
+                        
                     </p>
                 </li>
             </ul>
@@ -117,7 +116,7 @@
                     <input type="submit" value="Submit" class="submit_button" id="submit_button">
                </div>
                 <div class="back_button">
-                    <input type="button" value="Back" class="submit_button" id="back_button_journey_planner">
+                    <input type="button" value="Back" class="submit_button" id="back_button_journey_planner" onclick="location.reload()">
                 </div>
             </div>
         </div>
@@ -167,57 +166,57 @@
     </div>
 
     <div class="weather">
-      <div class="weather-left">
-          <div class="datetime">
-              <div class="sk-fading-circle" id="left-loader">
-                  <div class="sk-circle1 sk-circle"></div>
-                  <div class="sk-circle2 sk-circle"></div>
-                  <div class="sk-circle3 sk-circle"></div>
-                  <div class="sk-circle4 sk-circle"></div>
-                  <div class="sk-circle5 sk-circle"></div>
-                  <div class="sk-circle6 sk-circle"></div>
-                  <div class="sk-circle7 sk-circle"></div>
-                  <div class="sk-circle8 sk-circle"></div>
-                </div>
-              <p id="time"></p>
-              <p id="date"></p>
-          </div>
+        <div class="weather-left">
+            <div class="datetime">
+                <div class="sk-fading-circle" id="left-loader">
+                    <div class="sk-circle1 sk-circle"></div>
+                    <div class="sk-circle2 sk-circle"></div>
+                    <div class="sk-circle3 sk-circle"></div>
+                    <div class="sk-circle4 sk-circle"></div>
+                    <div class="sk-circle5 sk-circle"></div>
+                    <div class="sk-circle6 sk-circle"></div>
+                    <div class="sk-circle7 sk-circle"></div>
+                    <div class="sk-circle8 sk-circle"></div>
+                  </div>
+                <p id="time"></p>
+                <p id="date"></p>
+            </div>
+        </div>
+          
+        <div class="weather-right" id="weather-right">
+          <div class="sk-fading-circle" id="right-loader">
+              <div class="sk-circle1 sk-circle"></div>
+              <div class="sk-circle2 sk-circle"></div>
+              <div class="sk-circle3 sk-circle"></div>
+              <div class="sk-circle4 sk-circle"></div>
+              <div class="sk-circle5 sk-circle"></div>
+              <div class="sk-circle6 sk-circle"></div>
+              <div class="sk-circle7 sk-circle"></div>
+              <div class="sk-circle8 sk-circle"></div>
+            </div>
+          <i class="" id = 'weather_icon'></i>
+              <div class="weather-details">
+                <p class="dublin-weather" id = "dublin-weather"></p>
+                <span class="temp", id="temp"></span>
+                <span class="weather_desc", id="weather_desc"></span>
+            </div>
+        </div>
+  
+          <!-- <i class="fa-solid fa-angle-down expand-toggle-weather" id="toggle-weather"></i> -->
+          
       </div>
-        
-      <div class="weather-right" id="weather-right">
-        <div class="sk-fading-circle" id="right-loader">
-            <div class="sk-circle1 sk-circle"></div>
-            <div class="sk-circle2 sk-circle"></div>
-            <div class="sk-circle3 sk-circle"></div>
-            <div class="sk-circle4 sk-circle"></div>
-            <div class="sk-circle5 sk-circle"></div>
-            <div class="sk-circle6 sk-circle"></div>
-            <div class="sk-circle7 sk-circle"></div>
-            <div class="sk-circle8 sk-circle"></div>
-          </div>
-        <i class="" id = 'weather_icon'></i>
-            <div class="weather-details">
-              <p class="dublin-weather" id = "dublin-weather"></p>
-              <span class="temp", id="temp"></span>
-              <span class="weather_desc", id="weather_desc"></span>
-          </div>
+      <div class="graph" id="OccGraph">
       </div>
-
-        <!-- <i class="fa-solid fa-angle-down expand-toggle-weather" id="toggle-weather"></i> -->
-        
-    </div>
-    <div class="graph" id="OccGraph">
-    </div>
-    <div class="sk-fading-circle" id = "big-loader">
-      <div class="sk-circle1 sk-circle"></div>
-      <div class="sk-circle2 sk-circle"></div>
-      <div class="sk-circle3 sk-circle"></div>
-      <div class="sk-circle4 sk-circle"></div>
-      <div class="sk-circle5 sk-circle"></div>
-      <div class="sk-circle6 sk-circle"></div>
-      <div class="sk-circle7 sk-circle"></div>
-      <div class="sk-circle8 sk-circle"></div>
-    </div>
-    
-</body>
-</html>
+      <div class="sk-fading-circle" id = "big-loader">
+        <div class="sk-circle1 sk-circle"></div>
+        <div class="sk-circle2 sk-circle"></div>
+        <div class="sk-circle3 sk-circle"></div>
+        <div class="sk-circle4 sk-circle"></div>
+        <div class="sk-circle5 sk-circle"></div>
+        <div class="sk-circle6 sk-circle"></div>
+        <div class="sk-circle7 sk-circle"></div>
+        <div class="sk-circle8 sk-circle"></div>
+      </div>
+      
+  </body>
+  </html>
