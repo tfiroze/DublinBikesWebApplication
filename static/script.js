@@ -2,7 +2,7 @@ var markers = [];
 var map;
 var mc;
 var directionService;
-var directionRenderer;
+const directionRenderers = [null, null, null, null];
 const dublin = {lat: 53.3498, lng: -6.2603};
 function addMarkerClickListener(marker, contentString) {
   var infowindow = new google.maps.InfoWindow({
@@ -129,8 +129,7 @@ function searchStations() {
   //console.log(mc.markers.length);
 }
 
-  async function handleJourneySubmit(start, end) {
-    
+  async function handleJourneySubmit(start, end) {    
 
     const startStation = start[1][0].station_number;
     const endStation = end[1][0].station_number;
@@ -224,7 +223,7 @@ async function fetch_weather(){
   
 fetch_weather()
 
-async function nearestStation(place){
+async function nearestStation(place, drIndex){
   var shortestDistance = Infinity;
   var shortestDistanceMarker;
   
@@ -242,7 +241,7 @@ async function nearestStation(place){
   return [shortestDistanceMarker, direction_result[0]/60, direction_result[1]/1000];
 }
 
-async function findDirection(start, end, display, mode="WALKING"){
+async function findDirection(start, end, display, drIndex, mode="WALKING"){
 
   directionService = new google.maps.DirectionsService();
   directionRenderer = new google.maps.DirectionsRenderer({
@@ -347,6 +346,7 @@ window.onload = function(){
   
   
   search_station.addEventListener("click", async function() {
+    nearest_station_info.classList.add('close');
     nearest_station.classList.remove('close');
     back_button.classList.remove('close');
     journey_planner.classList.add('close');
@@ -387,13 +387,21 @@ window.onload = function(){
   var end = [];
 
   startDest.addEventListener("click", async function() {
+    if (directionRenderer) {
+      directionRenderer.setMap(null);
+      directionRenderer = null;
+    }
     start.push(await searchPlaces(startDest));
-    var nearest_station_marker = await nearestStation(start[0]);
+    const nearest_station_marker = await nearestStation(start[0]);
     start.push(nearest_station_marker);
     findDirection(start[0], nearest_station_marker[0], true);
   })
 
   endDest.addEventListener("click", async function() {
+    if(!start && directionRenderer) {
+      directionRenderer.setMap(null);
+      directionRenderer = null;
+    }
     end.push(await searchPlaces(endDest));
     var nearest_station_marker = await nearestStation(end[0]);
     end.push(nearest_station_marker);
@@ -446,6 +454,10 @@ window.onload = function(){
     journeyPlannerInfo.classList.remove('close')
     console.log(start,end);
     journey_planner_form.classList.add('close');
+    mc.markers = [];
+    markers.forEach(marker => {
+      marker.setMap(null);
+    });
     handleJourneySubmit(start, end);
   });
 
