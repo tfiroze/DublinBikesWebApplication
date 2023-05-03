@@ -187,12 +187,12 @@ function addMarkers(station_data,availabilityData,history){
 
 async function getStations() {
     markers = [];
-    const response = await fetch("http://34.242.180.5/stations");
+    const response = await fetch("http://127.0.0.1:5000/stations");
     data = await response.json()
     station_data = await data;
-    const availabilityResponse = await fetch("http://34.242.180.5/availability");
+    const availabilityResponse = await fetch("http://127.0.0.1:5000/availability");
     availabilityData = await availabilityResponse.json();
-    const history = await fetch("http://34.242.180.5/history");
+    const history = await fetch("http://127.0.0.1:5000/history");
     historydata = await history.json();
     console.log(station_data);
     // populateStationDropdowns(station_data);
@@ -284,7 +284,7 @@ function searchStations() {
         date,
     };
 
-    const startBikesResponse = await fetch(`http://34.242.180.5/predict_available_bikes/${startStation}`, {
+    const startBikesResponse = await fetch(`http://127.0.0.1:5000/predict_available_bikes/${startStation}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -294,7 +294,7 @@ function searchStations() {
     const startBikesData = await startBikesResponse.json();
     console.log("Start Station Available Bikes:", startBikesData);
 
-    const endBikesResponse = await fetch(`http://34.242.180.5/predict_available_bike_stands/${endStation}`, {
+    const endBikesResponse = await fetch(`http://127.0.0.1:5000/predict_available_bike_stands/${endStation}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -346,7 +346,7 @@ var weather_description
 var code
 var weathicon
 async function fetch_weather(){
-  const res = await  fetch('http://34.242.180.5/current_weather')
+  const res = await  fetch('http://127.0.0.1:5000/current_weather')
   data = await res.json()
   temp=data.temperature
   weather_description=data.weather_description
