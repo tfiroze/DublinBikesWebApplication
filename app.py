@@ -12,7 +12,7 @@ CORS(app)
 # Configure database connection
 conn = pymysql.connect(
     host="softwaredb.ce0otalnccc9.eu-west-1.rds.amazonaws.com",
-    user="soft",
+    user="user",
     password="password",
     database="dublinbikes",
     charset="utf8mb4",
