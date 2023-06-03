@@ -4,7 +4,7 @@ This system is a Flask application that provides a REST API for interacting with
 
 ## Note
 
-Replace your googlemap api key in the html file and your aws rds credentials in the flask app.
+Replace your Google Maps api key in the HTML file and your AWS RDS credentials in the flask app.
 
 ## Features
 
